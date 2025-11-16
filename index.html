@@ -1215,9 +1215,236 @@
         outline: 2px solid var(--accent);
         outline-offset: 2px;
     }
+    
+    /* ============================================
+       LANDING PAGE - 90s MIXTAPE AESTHETIC
+       ============================================ */
+    .landing-page {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    
+    .landing-page.fade-out {
+        opacity: 0;
+        transform: translateY(-50px);
+        pointer-events: none;
+    }
+    
+    /* Loading Screen */
+    .loading-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.5s ease-out;
+    }
+    
+    .loading-screen.hidden {
+        display: none;
+    }
+    
+    .loading-logo {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 30px;
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 0, 110, 0.6)); }
+        50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(251, 133, 0, 0.8)); }
+    }
+    
+    .loading-text {
+        font-size: 1.5rem;
+        color: var(--text-soft);
+        margin-top: 20px;
+    }
+    
+    .loading-spinner {
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border: 4px solid transparent;
+        border-top-color: var(--accent);
+        border-right-color: var(--accent-orange);
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Hero Screen */
+    .hero-screen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        animation: fadeIn 1s ease-out;
+    }
+    
+    .hero-screen.show {
+        display: flex;
+    }
+    
+    .hero-image {
+        max-width: 90%;
+        width: 600px;
+        height: auto;
+        margin-bottom: 40px;
+        animation: slideInUp 1s ease-out;
+        filter: drop-shadow(0 20px 60px rgba(255, 0, 110, 0.4));
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .hero-tagline {
+        font-size: 1.8rem;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 15px;
+        font-weight: 700;
+        animation: fadeIn 1.2s ease-out 0.3s both;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: var(--text-soft);
+        margin-bottom: 40px;
+        animation: fadeIn 1.4s ease-out 0.5s both;
+        max-width: 600px;
+    }
+    
+    .hero-cta {
+        display: inline-block;
+        padding: 18px 50px;
+        border-radius: 50px;
+        background: var(--gradient-primary);
+        color: var(--text);
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 1.2rem;
+        box-shadow: var(--glow-pink), 0 15px 40px rgba(0, 0, 0, 0.4);
+        animation: fadeIn 1.6s ease-out 0.7s both, buttonFloat 3s ease-in-out infinite;
+        transition: all var(--transition-base);
+    }
+    
+    .hero-cta:hover {
+        transform: translateY(-5px) scale(1.08);
+        box-shadow: 0 0 40px rgba(255, 0, 110, 1), 0 0 80px rgba(255, 107, 53, 0.6), 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    
+    @keyframes buttonFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+    
+    /* Cassette Tape Decorations */
+    .tape-decoration {
+        position: absolute;
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    .tape-left {
+        left: 5%;
+        top: 20%;
+        width: 200px;
+        animation: floatLeft 6s ease-in-out infinite;
+    }
+    
+    .tape-right {
+        right: 5%;
+        bottom: 20%;
+        width: 200px;
+        animation: floatRight 7s ease-in-out infinite;
+    }
+    
+    @keyframes floatLeft {
+        0%, 100% { transform: translateY(0) rotate(-5deg); }
+        50% { transform: translateY(-20px) rotate(-8deg); }
+    }
+    
+    @keyframes floatRight {
+        0%, 100% { transform: translateY(0) rotate(5deg); }
+        50% { transform: translateY(-15px) rotate(8deg); }
+    }
+    
+    .bars-decoration {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        opacity: 0.4;
+        object-fit: cover;
+        object-position: bottom;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-image { width: 90%; }
+        .hero-tagline { font-size: 1.4rem; }
+        .hero-subtitle { font-size: 1rem; }
+        .tape-left, .tape-right { width: 120px; opacity: 0.2; }
+        .bars-decoration { height: 120px; }
+    }
 </style>
 </head>
 <body>
+
+<!-- 90s Mixtape Landing Page -->
+<div class="landing-page" id="landingPage">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div style="position: relative;">
+            <img src="images/LoadingEV.png" alt="EchoVerse Loading" class="loading-logo">
+            <div class="loading-spinner"></div>
+        </div>
+        <div class="loading-text">Loading your music universe...</div>
+    </div>
+    
+    <!-- Hero Screen -->
+    <div class="hero-screen" id="heroScreen">
+        <img src="images/EVonBike.png" alt="Welcome to EchoVerse" class="hero-image">
+        <h1 class="hero-tagline">🎧 Your Story, Their Soundtrack 🎵</h1>
+        <p class="hero-subtitle">
+            Create a custom mixtape experience - A musical tribute that celebrates life, love, and the moments that matter most.
+        </p>
+        <button class="hero-cta" id="startButton">🎸 Start Building Your EchoStory</button>
+        
+        <!-- Cassette Tape Decorations -->
+        <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-left">
+        <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-right">
+        <img src="images/EV-DigBars.png" alt="" class="bars-decoration">
+    </div>
+</div>
 
 <!-- Floating Particles -->
 <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
@@ -3191,6 +3418,37 @@
         particle.style.animationDuration = (20 + Math.random() * 15) + 's';
         document.body.appendChild(particle);
     }
+    
+    // ============================================
+    // LANDING PAGE ANIMATION SEQUENCE
+    // ============================================
+    function initLandingPage() {
+        const landingPage = document.getElementById('landingPage');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const heroScreen = document.getElementById('heroScreen');
+        const startButton = document.getElementById('startButton');
+        
+        // Show loading screen for 2.5 seconds
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            heroScreen.classList.add('show');
+        }, 2500);
+        
+        // Start button click - fade out landing page and reveal wizard
+        startButton.addEventListener('click', () => {
+            landingPage.classList.add('fade-out');
+            
+            // Remove landing page after transition
+            setTimeout(() => {
+                landingPage.style.display = 'none';
+                // Scroll to top to ensure wizard is visible
+                window.scrollTo(0, 0);
+            }, 1000);
+        });
+    }
+    
+    // Initialize landing page on load
+    initLandingPage();
 })();
 </script>
 
