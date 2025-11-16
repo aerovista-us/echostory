@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EchoStory™ | EchoVerse by AeroVista</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        margin: 0;
+        background: #0B1C1E;
+        color: #F2EDE3;
+        font-family: 'Georgia', serif;
+    }
+
+    header {
+        padding: 20px;
+        text-align: center;
+        background: #073F46;
+        color: #F2EDE3;
+        border-bottom: 3px solid #D7C8A1;
+    }
+    header h1 {
+        letter-spacing: 2px;
+        font-weight: 300;
+        font-size: 2rem;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .hero h2 {
+        font-weight: 300;
+        font-size: 2.2rem;
+        color: #D7C8A1;
+    }
+    .hero p {
+        max-width: 600px;
+        margin: 10px auto;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+        gap: 25px;
+        padding: 30px;
+    }
+    .product-card {
+        background: #10292B;
+        border: 2px solid #D7C8A1;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        transition: 0.3s;
+    }
+    .product-card:hover {
+        transform: scale(1.04);
+        background: #163A3D;
+    }
+    .product-card h3 {
+        margin-bottom: 10px;
+        color: #D7C8A1;
+        letter-spacing: 1px;
+        font-weight: 400;
+    }
+    .price {
+        font-size: 1.6rem;
+        margin: 10px 0;
+        color: #F2EDE3;
+    }
+    
+    .btn {
+        display: inline-block;
+        background: #D7C8A1;
+        color: #0B1C1E;
+        padding: 10px 22px;
+        margin-top: 15px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .btn:hover {
+        background: #F2EDE3;
+        color: #0B1C1E;
+    }
+
+    /* Player Section */
+    .player-demo {
+        padding: 30px;
+        text-align: center;
+        background: #112F32;
+        border-top: 2px solid #D7C8A1;
+        border-bottom: 2px solid #D7C8A1;
+    }
+    audio {
+        width: 90%;
+        max-width: 500px;
+        margin-top: 15px;
+    }
+    .player-demo h2 {
+        color: #D7C8A1;
+    }
+
+    /* Order Intake Form */
+    .order-form {
+        padding: 40px 20px;
+        max-width: 700px;
+        margin: auto;
+    }
+    .order-form h2 {
+        text-align: center;
+        color: #D7C8A1;
+    }
+    .order-form label {
+        display: block;
+        margin-top: 20px;
+        font-size: 1.1rem;
+    }
+    .order-form input, 
+    .order-form textarea, 
+    .order-form select {
+        width: 100%;
+        padding: 12px;
+        margin-top: 6px;
+        border-radius: 6px;
+        border: none;
+        font-size: 1rem;
+    }
+    .order-form button {
+        margin-top: 30px;
+        padding: 12px 20px;
+        width: 100%;
+        background: #D7C8A1;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #0B1C1E;
+        cursor: pointer;
+    }
+    .order-form button:hover {
+        background: #F2EDE3;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        color: #D7C8A1;
+        opacity: 0.8;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>EchoStory™ Store</h1>
+    <p>by EchoVerse | AeroVista</p>
+</header>
+
+<section class="hero">
+    <h2>Your Story, Turned Into Song.</h2>
+    <p>Choose a package, preview the magic, and create the most meaningful gift they've ever received.</p>
+</section>
+
+<section class="product-grid">
+
+    <div class="product-card">
+        <h3>EchoStory™ Lite</h3>
+        <p class="price">$49</p>
+        <p>1 mini-song • Light album art • Tribute page • QR code</p>
+        <a class="btn" href="#order">Select</a>
+    </div>
+
+    <div class="product-card">
+        <h3>EchoStory™ Classic</h3>
+        <p class="price">$179</p>
+        <p>1 full song • Bonus version • Premium art • Tribute page • Card</p>
+        <a class="btn" href="#order">Select</a>
+    </div>
+
+    <div class="product-card">
+        <h3>EchoStory™ Signature Bundle</h3>
+        <p class="price">$349</p>
+        <p>3 custom songs • Artwork pack • Guestbook • Full tribute site</p>
+        <a class="btn" href="#order">Select</a>
+    </div>
+
+    <div class="product-card">
+        <h3>EchoStory™ Legacy Edition</h3>
+        <p class="price">$649</p>
+        <p>5 songs • Interview-based lyrics • Book PDF • Wall art</p>
+        <a class="btn" href="#order">Select</a>
+    </div>
+
+    <div class="product-card">
+        <h3>EchoStory™ Heirloom</h3>
+        <p class="price">$1499</p>
+        <p>7 songs • Video montage • Narration • Keepsake book</p>
+        <a class="btn" href="#order">Select</a>
+    </div>
+
+    <div class="product-card">
+        <h3>EchoStory™ Eternal Legacy Suite</h3>
+        <p class="price">$10000</p>
+        <p>The ultimate family archive: unlimited songs, documentary video, hardcover book collection, and more.</p>
+        <a class="btn" href="#order">Select</a>
+    </div>
+
+</section>
+
+<section class="player-demo">
+    <h2>🎧 Preview the Magic</h2>
+    <audio controls>
+        <source src="demo.mp3" type="audio/mpeg">
+    </audio>
+</section>
+
+<section id="order" class="order-form">
+    <h2>Start Your EchoStory™</h2>
+
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+        <label>Name of the Person You're Honoring:</label>
+        <input type="text" name="recipient_name" required>
+
+        <label>Occasion:</label>
+        <select name="occasion" required>
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Wedding</option>
+            <option>Memorial</option>
+            <option>Retirement</option>
+            <option>Other</option>
+        </select>
+
+        <label>Your Relationship / Who You Are:</label>
+        <input type="text" name="relationship">
+
+        <label>Tell us about them (personality, memories, stories):</label>
+        <textarea name="story" rows="6"></textarea>
+
+        <label>Preferred Song Styles:</label>
+        <select name="styles" multiple>
+            <option>Jazz / Crooner</option>
+            <option>Modern Pop</option>
+            <option>Acoustic</option>
+            <option>Lofi / Chill</option>
+            <option>8-bit / Retro</option>
+            <option>EDM</option>
+            <option>Cinematic</option>
+        </select>
+
+        <label>Upload Photos (optional):</label>
+        <input type="file" name="photos" multiple>
+
+        <button type="submit">Submit Order</button>
+    </form>
+</section>
+
+<footer>
+    EchoStory™ by EchoVerse | AeroVista
+</footer>
+
+</body>
+</html>

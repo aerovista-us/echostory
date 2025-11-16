@@ -1,0 +1,23 @@
+# Audio Preview Files Directory
+
+This directory should contain 10 audio preview files:
+
+1. jazz-preview.mp3
+2. lounge-preview.mp3
+3. acoustic-preview.mp3
+4. modern-pop-preview.mp3
+5. country-preview.mp3
+6. lofi-preview.mp3
+7. gamey-preview.mp3
+8. cinematic-preview.mp3
+9. love-ballad-preview.mp3
+10. storytelling-preview.mp3
+
+**Requirements:**
+- Format: MP3
+- Quality: 320kbps recommended
+- Duration: 15-30 seconds each
+- Naming: Must match exactly as listed above
+
+See /docs/SETUP.md for more details.
+
