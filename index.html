@@ -1514,6 +1514,222 @@
         .education-features { grid-template-columns: 1fr; gap: 15px; }
         .education-image { max-width: 90%; }
     }
+    
+    /* ============================================
+       FLOATING MINI AUDIO PLAYER
+       ============================================ */
+    .mini-audio-player {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 320px;
+        background: linear-gradient(135deg, rgba(26, 11, 46, 0.95) 0%, rgba(45, 27, 78, 0.95) 100%);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 0, 110, 0.4);
+        border-radius: 16px;
+        padding: 15px;
+        box-shadow: var(--glow-pink), 0 10px 40px rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+        transform: translateY(150%);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .mini-audio-player.show {
+        transform: translateY(0);
+    }
+    
+    .mini-player-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .mini-player-title {
+        font-size: 0.75rem;
+        color: var(--accent-cyan);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .mini-player-close {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all var(--transition-fast);
+    }
+    
+    .mini-player-close:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .mini-player-track-info {
+        margin-bottom: 15px;
+    }
+    
+    .mini-player-track-name {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .mini-player-track-artist {
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+    
+    .mini-player-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .mini-player-btn {
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: all var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mini-player-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(1.1);
+    }
+    
+    .mini-player-play-btn {
+        background: var(--gradient-primary);
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+        box-shadow: var(--glow-pink);
+    }
+    
+    .mini-player-play-btn:hover {
+        transform: scale(1.05);
+    }
+    
+    .mini-player-progress {
+        flex: 1;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .mini-player-progress-bar {
+        height: 100%;
+        background: var(--gradient-primary);
+        width: 0%;
+        transition: width 0.1s ease;
+        border-radius: 3px;
+        position: relative;
+    }
+    
+    .mini-player-progress-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 3px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 2px;
+        box-shadow: 0 0 4px rgba(255, 0, 110, 0.8);
+    }
+    
+    .mini-player-time {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 6px;
+    }
+    
+    .mini-player-volume {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .mini-player-volume-icon {
+        font-size: 1rem;
+        color: var(--accent-orange);
+    }
+    
+    .mini-player-volume-slider {
+        flex: 1;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .mini-player-volume-bar {
+        height: 100%;
+        background: var(--gradient-secondary);
+        width: 70%;
+        transition: width 0.1s ease;
+        border-radius: 2px;
+    }
+    
+    .mini-player-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border: none;
+        border-radius: 50%;
+        color: var(--text);
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: var(--glow-pink), 0 8px 30px rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+        transition: all var(--transition-base);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mini-player-toggle:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 0 30px rgba(255, 0, 110, 0.8), 0 0 60px rgba(255, 107, 53, 0.5);
+    }
+    
+    .mini-player-toggle.hidden {
+        display: none;
+    }
+    
+    @media (max-width: 768px) {
+        .mini-audio-player {
+            width: calc(100% - 40px);
+            right: 20px;
+            left: 20px;
+        }
+    }
 </style>
 </head>
 <body>
@@ -3588,8 +3804,169 @@
     
     // Initialize landing page on load
     initLandingPage();
+    
+    // ============================================
+    // FLOATING MINI AUDIO PLAYER
+    // ============================================
+    function initMiniPlayer() {
+        const miniPlayer = document.getElementById('miniPlayer');
+        const miniPlayerToggle = document.getElementById('miniPlayerToggle');
+        const miniPlayerAudio = document.getElementById('miniPlayerAudio');
+        const playBtn = document.getElementById('miniPlayBtn');
+        const miniProgress = document.getElementById('miniProgress');
+        const miniProgressBar = document.getElementById('miniProgressBar');
+        const miniCurrentTime = document.getElementById('miniCurrentTime');
+        const miniDuration = document.getElementById('miniDuration');
+        const miniVolumeSlider = document.getElementById('miniVolumeSlider');
+        const miniVolumeBar = document.getElementById('miniVolumeBar');
+        const miniPlayerClose = document.getElementById('miniPlayerClose');
+        
+        let isPlaying = false;
+        
+        // Randomly select a song
+        const songs = [
+            {
+                src: 'audio/The Story You Can Hear.mp3',
+                title: 'The Story You Can Hear',
+                artist: 'EchoVerse Sample'
+            },
+            {
+                src: 'audio/The Story You Can Hear (1).mp3',
+                title: 'The Story You Can Hear (Alt)',
+                artist: 'EchoVerse Sample'
+            }
+        ];
+        
+        const randomSong = songs[Math.floor(Math.random() * songs.length)];
+        miniPlayerAudio.src = randomSong.src;
+        document.getElementById('miniTrackName').textContent = randomSong.title;
+        document.getElementById('miniTrackArtist').textContent = randomSong.artist;
+        
+        // Show player after wizard loads (after landing page)
+        setTimeout(() => {
+            if (!document.getElementById('landingPage') || 
+                document.getElementById('landingPage').style.display === 'none') {
+                miniPlayerToggle.classList.remove('hidden');
+            }
+        }, 5000); // 5 seconds after page load
+        
+        // Toggle player visibility
+        miniPlayerToggle.addEventListener('click', () => {
+            miniPlayer.classList.add('show');
+            miniPlayerToggle.style.display = 'none';
+        });
+        
+        miniPlayerClose.addEventListener('click', () => {
+            miniPlayer.classList.remove('show');
+            setTimeout(() => {
+                miniPlayerToggle.style.display = 'flex';
+            }, 400);
+        });
+        
+        // Play/Pause
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                miniPlayerAudio.pause();
+                playBtn.textContent = '▶️';
+                isPlaying = false;
+            } else {
+                miniPlayerAudio.play().catch(err => {
+                    console.log('Autoplay prevented:', err);
+                });
+                playBtn.textContent = '⏸️';
+                isPlaying = true;
+            }
+        });
+        
+        // Update progress
+        miniPlayerAudio.addEventListener('timeupdate', () => {
+            if (miniPlayerAudio.duration) {
+                const progress = (miniPlayerAudio.currentTime / miniPlayerAudio.duration) * 100;
+                miniProgressBar.style.width = progress + '%';
+                miniCurrentTime.textContent = formatTime(miniPlayerAudio.currentTime);
+            }
+        });
+        
+        // Update duration
+        miniPlayerAudio.addEventListener('loadedmetadata', () => {
+            miniDuration.textContent = formatTime(miniPlayerAudio.duration);
+        });
+        
+        // Seek
+        miniProgress.addEventListener('click', (e) => {
+            if (miniPlayerAudio.duration) {
+                const rect = miniProgress.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const clickPercent = clickX / width;
+                miniPlayerAudio.currentTime = clickPercent * miniPlayerAudio.duration;
+            }
+        });
+        
+        // Volume control
+        miniVolumeSlider.addEventListener('click', (e) => {
+            const rect = miniVolumeSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const volume = Math.max(0, Math.min(1, clickX / width));
+            miniPlayerAudio.volume = volume;
+            miniVolumeBar.style.width = (volume * 100) + '%';
+        });
+        
+        // Auto-restart when ended
+        miniPlayerAudio.addEventListener('ended', () => {
+            miniPlayerAudio.currentTime = 0;
+            miniPlayerAudio.play();
+        });
+        
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+    }
+    
+    // Initialize mini player
+    initMiniPlayer();
 })();
 </script>
+
+<!-- Floating Mini Audio Player -->
+<button class="mini-player-toggle hidden" id="miniPlayerToggle">🎵</button>
+
+<div class="mini-audio-player" id="miniPlayer">
+    <div class="mini-player-header">
+        <div class="mini-player-title">🎧 EchoVerse Preview</div>
+        <button class="mini-player-close" id="miniPlayerClose">✕</button>
+    </div>
+    
+    <div class="mini-player-track-info">
+        <div class="mini-player-track-name" id="miniTrackName">Loading...</div>
+        <div class="mini-player-track-artist" id="miniTrackArtist">EchoVerse Sample</div>
+    </div>
+    
+    <div class="mini-player-controls">
+        <button class="mini-player-btn mini-player-play-btn" id="miniPlayBtn">▶️</button>
+        <div class="mini-player-progress" id="miniProgress">
+            <div class="mini-player-progress-bar" id="miniProgressBar"></div>
+        </div>
+    </div>
+    
+    <div class="mini-player-time">
+        <span id="miniCurrentTime">0:00</span>
+        <span id="miniDuration">0:00</span>
+    </div>
+    
+    <div class="mini-player-volume">
+        <span class="mini-player-volume-icon">🔊</span>
+        <div class="mini-player-volume-slider" id="miniVolumeSlider">
+            <div class="mini-player-volume-bar" id="miniVolumeBar"></div>
+        </div>
+    </div>
+    
+    <audio id="miniPlayerAudio" preload="metadata"></audio>
+</div>
 
 </body>
 </html>
