@@ -1970,6 +1970,17 @@
         
         currentStep = step;
         
+        // Special handling for step 4: retrigger package animations
+        if (step === 4) {
+            const packageCards = document.querySelectorAll('.package-card');
+            packageCards.forEach(card => {
+                // Force reflow to reset animation
+                card.style.animation = 'none';
+                card.offsetHeight; // trigger reflow
+                card.style.animation = null;
+            });
+        }
+        
         // Special handling for step 5
         if (step === 5) {
             updateSelectionSummary();
