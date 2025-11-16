@@ -1,23 +1,27 @@
 # Audio Preview Files Directory
 
-This directory should contain 10 audio preview files:
+This directory contains 10 audio preview files mapped to vibes:
 
-1. jazz-preview.mp3
-2. lounge-preview.mp3
-3. acoustic-preview.mp3
-4. modern-pop-preview.mp3
-5. country-preview.mp3
-6. lofi-preview.mp3
-7. gamey-preview.mp3
-8. cinematic-preview.mp3
-9. love-ballad-preview.mp3
-10. storytelling-preview.mp3
+**Current Files:**
+1. JAZZ _Pocket of Strange Cozy.mp3 → jazz
+2. LOUNGE _Slow Melt City.mp3 → lounge
+3. ACOUSTIC _Hollowbody Daydream Engine.mp3 → acoustic
+4. POP TRIBUTE_Heartline Respawn.extended.mp3 → modernPop
+5. COUNTRY _Prairie Made of Echoes.mp3 → country
+6. LOFI _Sleeptight Circuits.mp3 → lofi
+7. GAMEY _ 8-BIT _Pixelbones & Power-Ups.mp3 → gamey
+8. You Moved Through the World Like a Bassline.mp3 → cinematic
+9. Strong Quiet Things.mp3 → loveBallad
+10. STORYTELLING_The Sky Signed Your Name.mp3 → storytelling
+
+**Additional Files:**
+- JAZZ TRIBUTE _Backbeat in Your Shadow.mp3
+- This Groove Remembers You.mp3
 
 **Requirements:**
 - Format: MP3
 - Quality: 320kbps recommended
-- Duration: 15-30 seconds each
-- Naming: Must match exactly as listed above
+- Duration: Full songs are fine (they'll be used as previews)
 
 See /docs/SETUP.md for more details.
 
