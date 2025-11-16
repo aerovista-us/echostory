@@ -2181,10 +2181,16 @@
                 
                 wheelResult.innerHTML = `🎵 <strong>${formatVibeName(selectedVibe)}</strong> selected!`;
                 
-                // Auto-select the vibe
-                const vibeCard = document.querySelector(`[data-vibe="${selectedVibe}"]`);
+                // Auto-select the vibe card (not the SVG wheel segment)
+                const vibeCard = document.querySelector(`.choice-card[data-vibe="${selectedVibe}"]`);
                 if (vibeCard) {
-                    vibeCard.click();
+                    // Programmatically trigger selection
+                    const event = new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    vibeCard.dispatchEvent(event);
                 }
                 
                 // Play preview
