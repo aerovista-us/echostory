@@ -1970,15 +1970,24 @@
         
         currentStep = step;
         
-        // Special handling for step 4: retrigger package animations
+        // Special handling for step 4: ensure all package cards are visible and animated
         if (step === 4) {
-            const packageCards = document.querySelectorAll('.package-card');
-            packageCards.forEach(card => {
-                // Force reflow to reset animation
-                card.style.animation = 'none';
-                card.offsetHeight; // trigger reflow
-                card.style.animation = null;
-            });
+            // Small delay to ensure step is fully visible first
+            setTimeout(() => {
+                const packageCards = document.querySelectorAll('.package-card');
+                packageCards.forEach((card, index) => {
+                    // Reset to initial animation state
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    // Trigger entrance animation with staggered timing
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100); // 100ms delay between each card
+                });
+            }, 100);
         }
         
         // Special handling for step 5
