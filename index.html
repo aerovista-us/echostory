@@ -1415,6 +1415,105 @@
         .tape-left, .tape-right { width: 120px; opacity: 0.2; }
         .bars-decoration { height: 120px; }
     }
+    
+    /* Education/About Screen */
+    .education-screen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 20px;
+        animation: fadeIn 1s ease-out;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .education-screen.show {
+        display: flex;
+    }
+    
+    .education-image {
+        max-width: 500px;
+        width: 90%;
+        height: auto;
+        margin-bottom: 40px;
+        animation: slideInUp 1s ease-out;
+        filter: drop-shadow(0 20px 60px rgba(0, 217, 255, 0.4));
+    }
+    
+    .education-title {
+        font-size: 2.5rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        font-weight: 900;
+        animation: fadeIn 1.2s ease-out 0.2s both;
+    }
+    
+    .education-content {
+        max-width: 800px;
+        margin-bottom: 40px;
+    }
+    
+    .education-paragraph {
+        font-size: 1.15rem;
+        color: var(--text-soft);
+        line-height: 1.8;
+        margin-bottom: 25px;
+        animation: fadeIn 1.4s ease-out 0.4s both;
+    }
+    
+    .education-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
+        animation: fadeIn 1.6s ease-out 0.6s both;
+    }
+    
+    .education-feature {
+        background: linear-gradient(135deg, rgba(45, 27, 78, 0.6) 0%, rgba(61, 37, 99, 0.4) 100%);
+        border: 2px solid rgba(255, 0, 110, 0.3);
+        border-radius: 16px;
+        padding: 25px 20px;
+        backdrop-filter: blur(10px);
+        transition: all var(--transition-base);
+    }
+    
+    .education-feature:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-cyan);
+        box-shadow: var(--glow-cyan);
+    }
+    
+    .education-feature-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5));
+    }
+    
+    .education-feature-title {
+        font-size: 1.1rem;
+        color: var(--accent-orange);
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .education-feature-desc {
+        font-size: 0.95rem;
+        color: var(--text-soft);
+        line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        .education-title { font-size: 1.8rem; }
+        .education-paragraph { font-size: 1rem; }
+        .education-features { grid-template-columns: 1fr; gap: 15px; }
+        .education-image { max-width: 90%; }
+    }
 </style>
 </head>
 <body>
@@ -1443,6 +1542,55 @@
         <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-left">
         <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-right">
         <img src="images/EV-DigBars.png" alt="" class="bars-decoration">
+    </div>
+    
+    <!-- Education/About Screen -->
+    <div class="education-screen" id="educationScreen">
+        <img src="images/EV-Echo-verse.png" alt="Custom Music Player" class="education-image">
+        
+        <h2 class="education-title">More Than Music. A Memory That Lasts Forever.</h2>
+        
+        <div class="education-content">
+            <p class="education-paragraph">
+                Imagine giving someone their own custom music player—filled with songs written <strong>just for them</strong>. Not a playlist. Not a mixtape. A complete musical universe where <strong>every lyric tells their story</strong>, every melody captures their spirit, and every track is a memory brought to life.
+            </p>
+            
+            <p class="education-paragraph">
+                EchoStory transforms the people you love into art. We craft original music about <em>their</em> life, <em>their</em> moments, and <em>their</em> legacy—then deliver it in a beautiful, interactive experience they can treasure forever.
+            </p>
+        </div>
+        
+        <div class="education-features">
+            <div class="education-feature">
+                <div class="education-feature-icon">🎵</div>
+                <div class="education-feature-title">100% Original Music</div>
+                <div class="education-feature-desc">Every song is custom-written about them. No covers, no generic lyrics—just their story in sound.</div>
+            </div>
+            
+            <div class="education-feature">
+                <div class="education-feature-icon">💝</div>
+                <div class="education-feature-title">Perfect for Any Occasion</div>
+                <div class="education-feature-desc">Birthdays, weddings, anniversaries, retirements—celebrate life's biggest moments with something truly unique.</div>
+            </div>
+            
+            <div class="education-feature">
+                <div class="education-feature-icon">🎨</div>
+                <div class="education-feature-title">Beautiful & Interactive</div>
+                <div class="education-feature-desc">Custom artwork, QR codes, tribute pages, and shareable digital keepsakes they'll visit again and again.</div>
+            </div>
+            
+            <div class="education-feature">
+                <div class="education-feature-icon">⏱️</div>
+                <div class="education-feature-title">Fast Delivery</div>
+                <div class="education-feature-desc">Most packages delivered in 7-14 days. Rush options available for last-minute celebrations.</div>
+            </div>
+        </div>
+        
+        <p class="education-paragraph" style="font-size: 1.3rem; color: var(--accent-orange); font-weight: 700; margin-top: 30px;">
+            Ready to create something unforgettable?
+        </p>
+        
+        <button class="hero-cta" id="continueButton">🎧 Let's Build Their EchoStory</button>
     </div>
 </div>
 
@@ -1502,24 +1650,6 @@
             <p class="note-mini" id="wheelResult" style="margin-top: 15px; min-height: 20px;"></p>
         </div>
         
-        <!-- Live Audio Morphing Slider -->
-        <div id="audioMorphContainer" style="margin: 25px 0; padding: 20px; background: rgba(12, 35, 38, 0.6); border-radius: 12px; border: 1px dashed #34585c;">
-            <h4 style="color: var(--accent); margin-bottom: 15px; text-align: center;">🎚️ Morph Between Styles</h4>
-            <div style="position: relative; margin: 20px 0;">
-                <input type="range" id="styleMorphSlider" min="0" max="4" value="0" step="1" style="width: 100%; height: 8px; border-radius: 4px; background: linear-gradient(to right, #D7C8A1 0%, #D7C8A1 25%, #D7C8A1 50%, #D7C8A1 75%, #D7C8A1 100%); outline: none; cursor: pointer;">
-                <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; color: var(--muted);">
-                    <span>🎷 Jazz</span>
-                    <span>🎸 Acoustic</span>
-                    <span>🎹 Lofi</span>
-                    <span>🎮 8-Bit</span>
-                    <span>🎬 Cinematic</span>
-                </div>
-            </div>
-            <div id="morphAudioContainer" style="margin-top: 15px;">
-                <audio id="morphAudioPlayer" controls preload="none" style="width: 100%; max-width: 420px;"></audio>
-            </div>
-        </div>
-
         <div class="choice-grid" id="vibeChoices" role="group" aria-label="Vibe selection">
             <div class="choice-card" data-vibe="jazz" role="button" tabindex="0" aria-label="Jazz Swing vibe">
                 <div class="choice-label">🎷 Jazz Swing</div>
@@ -3426,7 +3556,9 @@
         const landingPage = document.getElementById('landingPage');
         const loadingScreen = document.getElementById('loadingScreen');
         const heroScreen = document.getElementById('heroScreen');
+        const educationScreen = document.getElementById('educationScreen');
         const startButton = document.getElementById('startButton');
+        const continueButton = document.getElementById('continueButton');
         
         // Show loading screen for 2.5 seconds
         setTimeout(() => {
@@ -3434,8 +3566,15 @@
             heroScreen.classList.add('show');
         }, 2500);
         
-        // Start button click - fade out landing page and reveal wizard
+        // Start button click - show education screen
         startButton.addEventListener('click', () => {
+            heroScreen.classList.remove('show');
+            heroScreen.style.display = 'none';
+            educationScreen.classList.add('show');
+        });
+        
+        // Continue button click - fade out landing page and reveal wizard
+        continueButton.addEventListener('click', () => {
             landingPage.classList.add('fade-out');
             
             // Remove landing page after transition
