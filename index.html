@@ -1803,6 +1803,28 @@
             </p>
         </div>
         
+        <!-- How It Works -->
+        <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.6) 0%, rgba(45, 27, 78, 0.6) 100%); border: 2px solid rgba(0, 217, 255, 0.3); border-radius: 16px; padding: 30px; margin: 35px 0; backdrop-filter: blur(20px);">
+            <h3 style="color: var(--accent-cyan); margin-bottom: 25px; font-size: 1.5rem; text-align: center;">✨ How It Works</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 20px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5));">1️⃣</div>
+                    <div style="font-weight: 700; color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.1rem;">You Answer Questions</div>
+                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">You answer a few questions about your person—their vibe, occasion, and special memories.</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5));">2️⃣</div>
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 10px; font-size: 1.1rem;">We Create</div>
+                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">We create custom songs + artwork based on their life, turning their story into original music.</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(251, 133, 0, 0.5));">3️⃣</div>
+                    <div style="font-weight: 700; color: var(--accent-orange); margin-bottom: 10px; font-size: 1.1rem;">You Get Their EchoStory</div>
+                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">You get a private EchoStory player, links, and (optionally) printable keepsakes they'll treasure forever.</div>
+                </div>
+            </div>
+        </div>
+        
         <div class="education-features">
             <div class="education-feature">
                 <div class="education-feature-icon">🎵</div>
@@ -1992,7 +2014,7 @@
     <!-- STEP 3: SCALE SELECTION -->
     <div class="wizard-step" data-step="3" role="tabpanel" aria-labelledby="step-3">
         <h3>Step 3 · How Big Should This Feel?</h3>
-        <p>This helps us recommend the right EchoStory™ level before we talk about prices.</p>
+        <p>This helps us recommend an EchoStory™ level that matches the moment—before we ever ask you to pay.</p>
 
         <div class="choice-grid" id="scaleChoices" role="group" aria-label="Scale selection">
             <div class="choice-card" data-scale="small" role="button" tabindex="0" aria-label="Sweet & Simple scale">
@@ -2035,15 +2057,25 @@
                 <div class="package-name">EchoStory™ Mini</div>
                 <div class="package-price">$79</div>
                 <div class="package-note">1 micro-song (45-60 sec) · simple tribute page · QR code · basic album cover · message section</div>
+                <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--accent-cyan);">Delivery:</strong> Private EchoStory link + downloadable audio<br>
+                    <strong style="color: var(--accent-cyan);">Timeline:</strong> ~7-10 days
+                </div>
                 <div class="package-radio">
                     <label><input type="radio" name="package" value="mini" aria-label="Select EchoStory Mini package"> Choose Mini</label>
                 </div>
             </div>
 
-            <div class="package-card" data-package="classic" data-base="179">
+            <div class="package-card recommended" data-package="classic" data-base="179">
+                <div class="package-tag">Most Popular</div>
                 <div class="package-name">EchoStory™ Classic</div>
                 <div class="package-price">$179</div>
                 <div class="package-note">3 full EchoVerse songs · signature style · lounge version · emotional version · tribute page · custom album cover · QR code · note-to-recipient page · keepsake PDF</div>
+                <div style="font-size: 0.85rem; color: var(--accent-orange); font-weight: 600; margin-top: 8px; margin-bottom: 8px;">Best balance of depth & price</div>
+                <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--accent-cyan);">Delivery:</strong> Private EchoStory link + downloadable audio + PDF<br>
+                    <strong style="color: var(--accent-cyan);">Timeline:</strong> ~10-14 days
+                </div>
                 <div class="package-radio">
                     <label><input type="radio" name="package" value="classic" aria-label="Select EchoStory Classic package"> Choose Classic</label>
                 </div>
@@ -2053,6 +2085,10 @@
                 <div class="package-name">EchoStory™ Signature Experience</div>
                 <div class="package-price">$349</div>
                 <div class="package-note">5 songs total · 2 album covers · photo-ready QR poster · guestbook embed · advanced tribute page · AR-style effects · family-share link · "Story Behind The Song" mini-bio</div>
+                <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--accent-cyan);">Delivery:</strong> Private EchoStory link + downloadable audio + premium keepsakes<br>
+                    <strong style="color: var(--accent-cyan);">Timeline:</strong> ~14-21 days
+                </div>
                 <div class="package-radio">
                     <label><input type="radio" name="package" value="signature" aria-label="Select EchoStory Signature package"> Choose Signature</label>
                 </div>
@@ -2062,6 +2098,10 @@
                 <div class="package-name">EchoStory™ Legacy Edition</div>
                 <div class="package-price">$649</div>
                 <div class="package-note">7 custom songs · interview-based lyrics · custom art set (5 images) · full tribute site · handwritten-style PDF · QR-coded wall print · private family link · 4 color variations</div>
+                <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--accent-cyan);">Delivery:</strong> Private EchoStory link + downloadable audio + premium keepsakes<br>
+                    <strong style="color: var(--accent-cyan);">Timeline:</strong> ~14-21 days
+                </div>
                 <div class="package-radio">
                     <label><input type="radio" name="package" value="legacy" aria-label="Select EchoStory Legacy package"> Choose Legacy</label>
                 </div>
@@ -2071,6 +2111,10 @@
                 <div class="package-name">EchoStory™ Eternal Legacy Suite</div>
                 <div class="package-price">$9,999</div>
                 <div class="package-note">Unlimited songs (up to 12) · narrated documentary · multi-genre reinterpretations · 10-20 min tribute film · 60-page hardcover book · up to 20 custom art pieces · permanent EchoVerse domain · digital archive USB · 3 framed QR displays · family-sharing launch kit · home-delivered premium package</div>
+                <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <strong style="color: var(--accent-cyan);">Delivery:</strong> Private EchoStory link + downloadable audio + premium keepsakes + physical package<br>
+                    <strong style="color: var(--accent-cyan);">Timeline:</strong> ~21-30 days
+                </div>
                 <div class="package-radio">
                     <label><input type="radio" name="package" value="eternal" aria-label="Select EchoStory Eternal Legacy package"> Choose Eternal Legacy</label>
                 </div>
@@ -2197,7 +2241,7 @@
 
     <!-- STEP 5: ORDER FORM (SEPARATE SCREEN) -->
     <div class="wizard-step" data-step="5" role="tabpanel" aria-labelledby="step-5">
-        <h3>Step 5 · Complete Your Order</h3>
+        <h3>Step 5 · Lock In Their EchoStory Details</h3>
         <p>Review your selections and provide your information to complete your EchoStory™ request.</p>
 
         <!-- Selection Summary -->
@@ -2227,6 +2271,31 @@
                 <span class="summary-label">Total Estimate:</span>
                 <span class="summary-value" id="summaryTotal" style="color: var(--accent); font-size: 1.2rem;">$0</span>
             </div>
+        </div>
+
+        <!-- How Payment Works -->
+        <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(255, 0, 110, 0.3); border-radius: 16px; padding: 25px; margin: 30px 0; backdrop-filter: blur(20px);">
+            <h4 style="color: var(--accent-orange); margin-bottom: 15px; font-size: 1.1rem;">💳 How Payment Works</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 15px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">1️⃣</div>
+                    <div style="font-weight: 600; color: var(--text); margin-bottom: 5px;">Submit Request</div>
+                    <div style="font-size: 0.85rem; color: var(--text-soft);">You submit your EchoStory™ request</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">2️⃣</div>
+                    <div style="font-weight: 600; color: var(--text); margin-bottom: 5px;">We Review & Invoice</div>
+                    <div style="font-size: 0.85rem; color: var(--text-soft);">We review details, confirm timeline, and send a Square invoice</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">3️⃣</div>
+                    <div style="font-weight: 600; color: var(--text); margin-bottom: 5px;">We Create</div>
+                    <div style="font-size: 0.85rem; color: var(--text-soft);">Once paid, we start writing, composing, and building your EchoStory</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-soft); text-align: center; padding-top: 15px; border-top: 1px solid rgba(255, 0, 110, 0.2);">
+                <strong style="color: var(--accent-cyan);">No instant autopay</strong> — Submitting this form starts the creative process, not a payment.
+            </p>
         </div>
 
         <!-- Order Form -->
@@ -2310,10 +2379,10 @@
                         </span>
                     </p>
                     <a href="#" id="squareCheckoutBtn" class="btn" target="_blank" rel="noopener noreferrer" style="display: inline-block; text-decoration: none;">
-                        Pay with Square
+                        Pay Base Package with Square
                     </a>
                     <p style="margin-top: 12px; font-size: 0.85rem; color: var(--muted);">
-                        You'll receive a Square invoice via email for any add-ons you selected.
+                        Your final invoice will reflect your package + any add-ons you selected. You'll receive a Square invoice via email for any add-ons.
                     </p>
                 </div>
             </div>
@@ -2330,6 +2399,58 @@
     </div>
 
 </div>
+
+<!-- FAQ Section -->
+<section style="max-width: 900px; margin: 60px auto; padding: 0 20px;">
+    <h2 style="text-align: center; color: var(--accent-cyan); margin-bottom: 40px; font-size: 2rem; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">❓ Frequently Asked Questions</h2>
+    
+    <div style="display: grid; gap: 20px;">
+        <details style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(255, 0, 110, 0.3); border-radius: 12px; padding: 20px; backdrop-filter: blur(20px); cursor: pointer; transition: all var(--transition-base);">
+            <summary style="font-weight: 700; color: var(--accent-orange); font-size: 1.1rem; margin-bottom: 10px; cursor: pointer; list-style: none;">How long does an EchoStory take?</summary>
+            <p style="color: var(--text-soft); margin-top: 12px; line-height: 1.6; padding-left: 0;">Most packages are delivered in 7-14 days after we confirm your details. Larger packages (Signature+) may take 14-21 days. Rush options are available for last-minute celebrations—just mention it in your request!</p>
+        </details>
+        
+        <details style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(255, 0, 110, 0.3); border-radius: 12px; padding: 20px; backdrop-filter: blur(20px); cursor: pointer; transition: all var(--transition-base);">
+            <summary style="font-weight: 700; color: var(--accent-orange); font-size: 1.1rem; margin-bottom: 10px; cursor: pointer; list-style: none;">Do I get to request changes?</summary>
+            <p style="color: var(--text-soft); margin-top: 12px; line-height: 1.6; padding-left: 0;">Yes! We include one revision round with every package. After you receive your EchoStory, you can request adjustments to lyrics, music style, or artwork. We want it to be perfect for your person.</p>
+        </details>
+        
+        <details style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(255, 0, 110, 0.3); border-radius: 12px; padding: 20px; backdrop-filter: blur(20px); cursor: pointer; transition: all var(--transition-base);">
+            <summary style="font-weight: 700; color: var(--accent-orange); font-size: 1.1rem; margin-bottom: 10px; cursor: pointer; list-style: none;">Will my stories/info be kept private?</summary>
+            <p style="color: var(--text-soft); margin-top: 12px; line-height: 1.6; padding-left: 0;">Absolutely. All information you share is completely confidential. Your EchoStory is private and only accessible via the link you receive. We never share your stories, photos, or personal details with anyone.</p>
+        </details>
+        
+        <details style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(255, 0, 110, 0.3); border-radius: 12px; padding: 20px; backdrop-filter: blur(20px); cursor: pointer; transition: all var(--transition-base);">
+            <summary style="font-weight: 700; color: var(--accent-orange); font-size: 1.1rem; margin-bottom: 10px; cursor: pointer; list-style: none;">Can I gift this if the person isn't tech-savvy?</summary>
+            <p style="color: var(--text-soft); margin-top: 12px; line-height: 1.6; padding-left: 0;">Yes! Every EchoStory includes a QR code that works on any smartphone—just point and scan. We also provide printable keepsakes and PDFs that work offline. The experience is designed to be simple and accessible for everyone.</p>
+        </details>
+    </div>
+</section>
+
+<!-- Social Proof / Testimonials -->
+<section style="max-width: 900px; margin: 60px auto; padding: 0 20px;">
+    <h2 style="text-align: center; color: var(--accent-cyan); margin-bottom: 40px; font-size: 2rem; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">💬 Early EchoStory Reactions</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+        <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(255, 0, 110, 0.3); border-radius: 16px; padding: 25px; backdrop-filter: blur(20px);">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">💧</div>
+            <p style="color: var(--text-soft); font-style: italic; line-height: 1.7; margin-bottom: 15px;">"I cried in the best way possible. It felt like our family history had a soundtrack."</p>
+            <div style="font-size: 0.85rem; color: var(--muted);">— Early Listener</div>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(0, 217, 255, 0.3); border-radius: 16px; padding: 25px; backdrop-filter: blur(20px);">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">🎁</div>
+            <p style="color: var(--text-soft); font-style: italic; line-height: 1.7; margin-bottom: 15px;">"The perfect gift for my mom's 70th. She plays it every morning and shares it with everyone."</p>
+            <div style="font-size: 0.85rem; color: var(--muted);">— Pilot Client</div>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%); border: 2px solid rgba(251, 133, 0, 0.3); border-radius: 16px; padding: 25px; backdrop-filter: blur(20px);">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">✨</div>
+            <p style="color: var(--text-soft); font-style: italic; line-height: 1.7; margin-bottom: 15px;">"More meaningful than any store-bought gift. This is what memories sound like."</p>
+            <div style="font-size: 0.85rem; color: var(--muted);">— Early Listener</div>
+        </div>
+    </div>
+</section>
 
 <footer>
     EchoStory™ · EchoVerse | AeroVista · Built for moments that deserve more than store-bought.
