@@ -3821,6 +3821,13 @@
         const miniVolumeBar = document.getElementById('miniVolumeBar');
         const miniPlayerClose = document.getElementById('miniPlayerClose');
         
+        // Ensure all elements exist before proceeding
+        if (!miniPlayer || !miniPlayerToggle || !miniPlayerAudio || !playBtn || 
+            !miniProgress || !miniProgressBar || !miniPlayerClose) {
+            console.warn('Mini player elements not found, skipping initialization');
+            return;
+        }
+        
         let isPlaying = false;
         
         // Randomly select a song
@@ -3839,8 +3846,11 @@
         
         const randomSong = songs[Math.floor(Math.random() * songs.length)];
         miniPlayerAudio.src = randomSong.src;
-        document.getElementById('miniTrackName').textContent = randomSong.title;
-        document.getElementById('miniTrackArtist').textContent = randomSong.artist;
+        
+        const trackNameEl = document.getElementById('miniTrackName');
+        const trackArtistEl = document.getElementById('miniTrackArtist');
+        if (trackNameEl) trackNameEl.textContent = randomSong.title;
+        if (trackArtistEl) trackArtistEl.textContent = randomSong.artist;
         
         // Show player after wizard loads (after landing page)
         setTimeout(() => {
