@@ -3919,6 +3919,17 @@
             miniPlayerAudio.play();
         });
         
+        // Keep internal state in sync when paused externally
+        miniPlayerAudio.addEventListener('pause', () => {
+            isPlaying = false;
+            playBtn.textContent = '▶️';
+        });
+        
+        miniPlayerAudio.addEventListener('play', () => {
+            isPlaying = true;
+            playBtn.textContent = '⏸️';
+        });
+        
         function formatTime(seconds) {
             if (isNaN(seconds)) return '0:00';
             const mins = Math.floor(seconds / 60);
@@ -3929,6 +3940,38 @@
     
     // Initialize mini player
     initMiniPlayer();
+    
+    // ============================================
+    // AUDIO PLAYER COORDINATION
+    // ============================================
+    function coordinateAudioPlayers() {
+        const step1Audio = document.getElementById('audioPlayer');
+        const miniPlayerAudio = document.getElementById('miniPlayerAudio');
+        
+        if (step1Audio && miniPlayerAudio) {
+            // When mini player starts, pause Step 1 player
+            miniPlayerAudio.addEventListener('play', () => {
+                if (!step1Audio.paused) {
+                    step1Audio.pause();
+                }
+            });
+            
+            // When Step 1 player starts, pause mini player
+            step1Audio.addEventListener('play', () => {
+                if (!miniPlayerAudio.paused) {
+                    miniPlayerAudio.pause();
+                    // Update mini player UI
+                    const miniPlayBtn = document.getElementById('miniPlayBtn');
+                    if (miniPlayBtn) {
+                        miniPlayBtn.textContent = '▶️';
+                    }
+                }
+            });
+        }
+    }
+    
+    // Coordinate players after a short delay to ensure both are initialized
+    setTimeout(coordinateAudioPlayers, 1000);
 })();
 </script>
 
