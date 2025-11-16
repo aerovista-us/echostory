@@ -61,12 +61,12 @@ EchoStory is a premium interactive web storefront for ordering custom musical tr
    ```
 
 2. **Configure Square Payment Links**
-   - Edit `indexx.html` (lines 1702-1708)
+   - Edit `index.html` (lines 1702-1708)
    - Replace `YOUR_LINK_ID` with actual Square Link IDs
    - See [docs/SETUP.md](docs/SETUP.md) for detailed instructions
 
 3. **Configure Formspree**
-   - Edit `indexx.html` (line 1582)
+   - Edit `index.html` (line 1582)
    - Replace `YOUR_FORM_ID` with your Formspree endpoint
    - Get your ID from [formspree.io/forms](https://formspree.io/forms)
 
@@ -86,8 +86,7 @@ EchoStory is a premium interactive web storefront for ordering custom musical tr
 
 ```
 echostory/
-├── indexx.html          # Main storefront (production-ready)
-├── index.html           # Original version (legacy)
+├── index.html           # Main storefront (production-ready)
 ├── audio/               # Audio preview files (10 MP3s)
 │   ├── jazz-preview.mp3
 │   ├── lounge-preview.mp3
@@ -110,12 +109,12 @@ echostory/
 
 ### Required Configurations
 
-1. **Square Payment Integration** (3 places to configure)
+1. **Square Payment Integration** (3 places to configure in `index.html`)
    - Update `CONFIG.squareLinks` in JavaScript
    - Create 5 payment links in Square dashboard
    - [Full instructions →](docs/SETUP.md#1-square-payment-integration)
 
-2. **Formspree Form Endpoint** (1 place)
+2. **Formspree Form Endpoint** (1 place in `index.html`)
    - Update form `action` attribute
    - [Full instructions →](docs/SETUP.md#2-formspree-form-configuration)
 

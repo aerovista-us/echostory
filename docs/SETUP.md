@@ -38,7 +38,7 @@ Before launching, you need to configure three main areas:
    - Each link has a unique identifier
 
 4. **Update Configuration**
-   - Open `indexx.html`
+   - Open `index.html`
    - Find the CONFIG section (around line 1702)
    - Replace `YOUR_LINK_ID` with actual Square Link IDs:
 
@@ -81,7 +81,7 @@ If no Square Link ID is configured, customers will see:
    - Copy the Form ID (format: `abcd1234`)
 
 3. **Update HTML**
-   - Open `indexx.html`
+   - Open `index.html`
    - Find line 1582
    - Replace `YOUR_FORM_ID`:
 
@@ -150,7 +150,7 @@ The form automatically submits:
 2. **Create Directory Structure**
    ```
    mini.shops/EchoStory/
-   ├── indexx.html
+   ├── index.html
    └── audio/
        ├── jazz-preview.mp3
        ├── lounge-preview.mp3
@@ -340,7 +340,7 @@ To change package prices:
 
 ## Quick Reference
 
-**Config File**: `indexx.html` line 1688-1790
+**Config File**: `index.html` line 1688-1790
 **Square Links**: Line 1702-1708
 **Audio Files**: Line 1721-1732
 **Formspree Form**: Line 1582
