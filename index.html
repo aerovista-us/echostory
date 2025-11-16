@@ -1422,12 +1422,14 @@
         display: none;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         text-align: center;
-        padding: 40px 20px;
+        padding: 30px 20px;
         animation: fadeIn 1s ease-out;
         max-width: 1000px;
         margin: 0 auto;
+        max-height: 100vh;
+        overflow-y: auto;
     }
     
     .education-screen.show {
@@ -1435,16 +1437,16 @@
     }
     
     .education-image {
-        max-width: 500px;
+        max-width: 400px;
         width: 90%;
         height: auto;
-        margin-bottom: 40px;
+        margin-bottom: 25px;
         animation: slideInUp 1s ease-out;
         filter: drop-shadow(0 20px 60px rgba(0, 217, 255, 0.4));
     }
     
     .education-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
         background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -1455,8 +1457,8 @@
     }
     
     .education-content {
-        max-width: 800px;
-        margin-bottom: 40px;
+        max-width: 700px;
+        margin-bottom: 30px;
     }
     
     .education-paragraph {
@@ -1469,18 +1471,21 @@
     
     .education-features {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 25px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
         margin: 40px 0;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
         animation: fadeIn 1.6s ease-out 0.6s both;
     }
     
     .education-feature {
-        background: linear-gradient(135deg, rgba(45, 27, 78, 0.6) 0%, rgba(61, 37, 99, 0.4) 100%);
+        background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(45, 27, 78, 0.8) 100%);
         border: 2px solid rgba(255, 0, 110, 0.3);
         border-radius: 16px;
-        padding: 25px 20px;
-        backdrop-filter: blur(10px);
+        padding: 20px;
+        backdrop-filter: blur(20px);
         transition: all var(--transition-base);
     }
     
@@ -1491,22 +1496,22 @@
     }
     
     .education-feature-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
+        font-size: 2.5rem;
+        margin-bottom: 12px;
         filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5));
     }
     
     .education-feature-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: var(--accent-orange);
         font-weight: 700;
         margin-bottom: 10px;
     }
     
     .education-feature-desc {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         color: var(--text-soft);
-        line-height: 1.6;
+        line-height: 1.5;
     }
     
     @media (max-width: 768px) {
@@ -1724,6 +1729,27 @@
         display: none;
     }
     
+    /* Mini Player Visualizer */
+    .mini-player-visualizer {
+        height: 30px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 2px;
+        padding: 8px 15px;
+        background: rgba(10, 1, 24, 0.5);
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .visualizer-bar {
+        width: 3px;
+        background: linear-gradient(to top, var(--accent-cyan), var(--accent));
+        border-radius: 2px;
+        transition: height 0.1s ease;
+        min-height: 2px;
+    }
+    
     @media (max-width: 768px) {
         .mini-audio-player {
             width: calc(100% - 40px);
@@ -1794,12 +1820,6 @@
                 <div class="education-feature-icon">🎨</div>
                 <div class="education-feature-title">Beautiful & Interactive</div>
                 <div class="education-feature-desc">Custom artwork, QR codes, tribute pages, and shareable digital keepsakes they'll visit again and again.</div>
-            </div>
-            
-            <div class="education-feature">
-                <div class="education-feature-icon">⏱️</div>
-                <div class="education-feature-title">Fast Delivery</div>
-                <div class="education-feature-desc">Most packages delivered in 7-14 days. Rush options available for last-minute celebrations.</div>
             </div>
         </div>
         
@@ -3853,13 +3873,17 @@
         if (trackNameEl) trackNameEl.textContent = randomSong.title;
         if (trackArtistEl) trackArtistEl.textContent = randomSong.artist;
         
-        // Show player after wizard loads (after landing page)
-        setTimeout(() => {
-            if (!document.getElementById('landingPage') || 
-                document.getElementById('landingPage').style.display === 'none') {
-                miniPlayerToggle.classList.remove('hidden');
+        // Show player after landing sequence completes
+        const showMiniPlayerWhenReady = setInterval(() => {
+            const landingPage = document.getElementById('landingPage');
+            if (!landingPage || landingPage.style.display === 'none' || 
+                landingPage.classList.contains('fade-out')) {
+                clearInterval(showMiniPlayerWhenReady);
+                setTimeout(() => {
+                    miniPlayerToggle.classList.remove('hidden');
+                }, 2000); // 2 seconds after wizard appears
             }
-        }, 5000); // 5 seconds after page load
+        }, 500); // Check every 500ms
         
         // Toggle player visibility
         miniPlayerToggle.addEventListener('click', () => {
@@ -3930,15 +3954,76 @@
             miniPlayerAudio.play();
         });
         
-        // Keep internal state in sync when paused externally
-        miniPlayerAudio.addEventListener('pause', () => {
-            isPlaying = false;
-            playBtn.textContent = '▶️';
-        });
+        // Create audio context for visualizer
+        let audioContext = null;
+        let analyser = null;
+        let dataArray = null;
+        let animationId = null;
         
+        function initVisualizer() {
+            if (!audioContext) {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    const source = audioContext.createMediaElementSource(miniPlayerAudio);
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                    analyser.fftSize = 64;
+                    dataArray = new Uint8Array(analyser.frequencyBinCount);
+                    
+                    // Create 16 visualizer bars
+                    const visualizer = document.getElementById('miniVisualizer');
+                    if (visualizer) {
+                        visualizer.innerHTML = ''; // Clear any existing bars
+                        for (let i = 0; i < 16; i++) {
+                            const bar = document.createElement('div');
+                            bar.className = 'visualizer-bar';
+                            bar.style.height = '2px';
+                            visualizer.appendChild(bar);
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Web Audio API not available for visualizer:', error);
+                }
+            }
+        }
+        
+        function animateVisualizer() {
+            if (!analyser || !dataArray) return;
+            
+            analyser.getByteFrequencyData(dataArray);
+            const bars = document.querySelectorAll('.visualizer-bar');
+            
+            bars.forEach((bar, index) => {
+                const value = dataArray[index * 2] || 0;
+                const height = Math.max(2, (value / 255) * 30);
+                bar.style.height = height + 'px';
+            });
+            
+            animationId = requestAnimationFrame(animateVisualizer);
+        }
+        
+        // Play event - update UI and start visualizer
         miniPlayerAudio.addEventListener('play', () => {
             isPlaying = true;
             playBtn.textContent = '⏸️';
+            if (!audioContext) initVisualizer();
+            if (audioContext && audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            if (analyser) {
+                animateVisualizer();
+            }
+        });
+        
+        // Pause event - update UI and stop visualizer
+        miniPlayerAudio.addEventListener('pause', () => {
+            isPlaying = false;
+            playBtn.textContent = '▶️';
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
         });
         
         function formatTime(seconds) {
@@ -3998,6 +4083,10 @@
     <div class="mini-player-track-info">
         <div class="mini-player-track-name" id="miniTrackName">Loading...</div>
         <div class="mini-player-track-artist" id="miniTrackArtist">EchoVerse Sample</div>
+    </div>
+    
+    <div class="mini-player-visualizer" id="miniVisualizer">
+        <!-- Bars generated by JS -->
     </div>
     
     <div class="mini-player-controls">
