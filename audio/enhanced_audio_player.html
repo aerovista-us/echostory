@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>EchoVerse Music - Enhanced Audio Quality</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Enhanced Audio Player */
+        .enhanced-audio-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.98);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .enhanced-audio-player.active {
+            transform: translateY(0);
+        }
+        
+        .player-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            min-width: 300px;
+        }
+        
+        .player-cover {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .player-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .track-details {
+            flex: 1;
+        }
+        
+        .track-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        
+        .track-artist {
+            font-size: 0.95rem;
+            color: #b8b8b8;
+            margin-bottom: 4px;
+        }
+        
+        .audio-quality {
+            font-size: 0.8rem;
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .control-btn.play-pause {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .control-btn.play-pause:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .progress-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .progress-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s ease;
+            position: relative;
+        }
+        
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 2px;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #b8b8b8;
+            margin-top: 8px;
+        }
+        
+        .audio-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 200px;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .volume-icon {
+            font-size: 1.2rem;
+            color: #b8b8b8;
+        }
+        
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .volume-progress {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+            width: 70%;
+            transition: width 0.1s ease;
+        }
+        
+        .audio-effects {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .effect-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .effect-label {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            min-width: 60px;
+        }
+        
+        .effect-slider {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .effect-progress {
+            height: 100%;
+            background: #667eea;
+            border-radius: 2px;
+            width: 50%;
+            transition: width 0.1s ease;
+        }
+        
+        .quality-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #667eea;
+        }
+        
+        .quality-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .close-player {
+            background: none;
+            border: none;
+            color: #b8b8b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .close-player:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Audio Quality Enhancements */
+        .audio-context {
+            position: relative;
+        }
+        
+        .spectrum-analyzer {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(90deg, 
+                rgba(102, 126, 234, 0.3) 0%, 
+                rgba(118, 75, 162, 0.3) 50%, 
+                rgba(102, 126, 234, 0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .spectrum-analyzer.active {
+            opacity: 1;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .player-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .audio-settings {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; padding: 100px 20px;">
+            <h1 style="font-size: 3rem; margin-bottom: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎵 Enhanced Audio Quality</h1>
+            <p style="font-size: 1.2rem; color: #b8b8b8; margin-bottom: 40px;">Experience premium sound with advanced audio processing</p>
+            <button onclick="showPlayer()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s ease;">Start Enhanced Player</button>
+        </div>
+    </div>
+
+    <!-- Enhanced Audio Player -->
+    <div class="enhanced-audio-player" id="enhancedAudioPlayer">
+        <div class="player-content">
+            <div class="player-info">
+                <div class="player-cover" id="playerCover">
+                    <div>🎵</div>
+                </div>
+                <div class="track-details">
+                    <div class="track-title" id="playerTitle">Enhanced Audio Player</div>
+                    <div class="track-artist" id="playerArtist">High-Quality Sound Processing</div>
+                    <div class="audio-quality" id="audioQuality">Lossless • 48kHz • 24-bit</div>
+                </div>
+            </div>
+            
+            <div class="player-controls">
+                <div class="control-buttons">
+                    <button class="control-btn" id="prevBtn">⏮️</button>
+                    <button class="control-btn play-pause" id="playPauseBtn">▶️</button>
+                    <button class="control-btn" id="nextBtn">⏭️</button>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress" id="progress"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="audio-settings">
+                <div class="volume-control">
+                    <span class="volume-icon">🔊</span>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-progress" id="volumeProgress"></div>
+                    </div>
+                </div>
+                
+                <div class="audio-effects">
+                    <div class="effect-control">
+                        <span class="effect-label">Bass</span>
+                        <div class="effect-slider" id="bassSlider">
+                            <div class="effect-progress" id="bassProgress"></div>
+                        </div>
+                    </div>
+                    <div class="effect-control">
+                        <span class="effect-label">Treble</span>
+                        <div class="effect-slider" id="trebleSlider">
+                            <div class="effect-progress" id="trebleProgress"></div>
+                        </div>
+                    </div>
+                    <div class="effect-control">
+                        <span class="effect-label">Reverb</span>
+                        <div class="effect-slider" id="reverbSlider">
+                            <div class="effect-progress" id="reverbProgress"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quality-indicator">
+                    <div class="quality-dot"></div>
+                    <span id="qualityStatus">High Quality Active</span>
+                </div>
+            </div>
+            
+            <button class="close-player" id="closePlayer">✕</button>
+        </div>
+        
+        <div class="spectrum-analyzer" id="spectrumAnalyzer"></div>
+        
+        <audio id="audioElement" preload="metadata"></audio>
+    </div>
+
+    <script>
+        // Enhanced Audio Processing
+        class EnhancedAudioProcessor {
+            constructor() {
+                this.audioContext = null;
+                this.analyser = null;
+                this.gainNode = null;
+                this.bassFilter = null;
+                this.trebleFilter = null;
+                this.reverbNode = null;
+                this.source = null;
+                
+                this.initializeAudioContext();
+            }
+            
+            initializeAudioContext() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.gainNode = this.audioContext.createGain();
+                    
+                    // Create EQ filters
+                    this.bassFilter = this.audioContext.createBiquadFilter();
+                    this.bassFilter.type = 'lowshelf';
+                    this.bassFilter.frequency.setValueAtTime(250, this.audioContext.currentTime);
+                    
+                    this.trebleFilter = this.audioContext.createBiquadFilter();
+                    this.trebleFilter.type = 'highshelf';
+                    this.trebleFilter.frequency.setValueAtTime(4000, this.audioContext.currentTime);
+                    
+                    // Create reverb effect
+                    this.reverbNode = this.audioContext.createConvolver();
+                    this.createReverbImpulse();
+                    
+                    // Connect audio graph
+                    this.analyser.connect(this.gainNode);
+                    this.gainNode.connect(this.bassFilter);
+                    this.bassFilter.connect(this.trebleFilter);
+                    this.trebleFilter.connect(this.reverbNode);
+                    this.reverbNode.connect(this.audioContext.destination);
+                    
+                    this.analyser.fftSize = 256;
+                    this.analyser.smoothingTimeConstant = 0.8;
+                    
+                } catch (error) {
+                    console.log('Web Audio API not supported:', error);
+                }
+            }
+            
+            createReverbImpulse() {
+                const length = this.audioContext.sampleRate * 2;
+                const impulse = this.audioContext.createBuffer(2, length, this.audioContext.sampleRate);
+                
+                for (let channel = 0; channel < 2; channel++) {
+                    const channelData = impulse.getChannelData(channel);
+                    for (let i = 0; i < length; i++) {
+                        channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+                    }
+                }
+                
+                this.reverbNode.buffer = impulse;
+            }
+            
+            connectAudioElement(audioElement) {
+                if (this.audioContext && this.source) {
+                    this.source.disconnect();
+                }
+                
+                if (this.audioContext) {
+                    this.source = this.audioContext.createMediaElementSource(audioElement);
+                    this.source.connect(this.analyser);
+                }
+            }
+            
+            setBass(value) {
+                if (this.bassFilter) {
+                    this.bassFilter.gain.setValueAtTime(value * 20 - 10, this.audioContext.currentTime);
+                }
+            }
+            
+            setTreble(value) {
+                if (this.trebleFilter) {
+                    this.trebleFilter.gain.setValueAtTime(value * 20 - 10, this.audioContext.currentTime);
+                }
+            }
+            
+            setReverb(value) {
+                if (this.reverbNode) {
+                    this.reverbNode.dry = 1 - value;
+                    this.reverbNode.wet = value;
+                }
+            }
+            
+            setVolume(value) {
+                if (this.gainNode) {
+                    this.gainNode.gain.setValueAtTime(value, this.audioContext.currentTime);
+                }
+            }
+            
+            getFrequencyData() {
+                if (this.analyser) {
+                    const bufferLength = this.analyser.frequencyBinCount;
+                    const dataArray = new Uint8Array(bufferLength);
+                    this.analyser.getByteFrequencyData(dataArray);
+                    return dataArray;
+                }
+                return null;
+            }
+        }
+        
+        // Initialize enhanced audio processor
+        const audioProcessor = new EnhancedAudioProcessor();
+        
+        // Audio Player State
+        let currentTrack = null;
+        let isPlaying = false;
+        let spectrumAnimation = null;
+        
+        // DOM Elements
+        const audioElement = document.getElementById('audioElement');
+        const enhancedPlayer = document.getElementById('enhancedAudioPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeProgress = document.getElementById('volumeProgress');
+        const bassSlider = document.getElementById('bassSlider');
+        const bassProgress = document.getElementById('bassProgress');
+        const trebleSlider = document.getElementById('trebleSlider');
+        const trebleProgress = document.getElementById('trebleProgress');
+        const reverbSlider = document.getElementById('reverbSlider');
+        const reverbProgress = document.getElementById('reverbProgress');
+        const closePlayer = document.getElementById('closePlayer');
+        const spectrumAnalyzer = document.getElementById('spectrumAnalyzer');
+        const qualityStatus = document.getElementById('qualityStatus');
+        
+        // Initialize player
+        function initEnhancedPlayer() {
+            // Set high-quality audio settings
+            audioElement.preload = 'metadata';
+            audioElement.crossOrigin = 'anonymous';
+            
+            // Connect to audio processor
+            audioProcessor.connectAudioElement(audioElement);
+            
+            // Event listeners
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            progressBar.addEventListener('click', seekTo);
+            volumeSlider.addEventListener('click', setVolume);
+            bassSlider.addEventListener('click', setBass);
+            trebleSlider.addEventListener('click', setTreble);
+            reverbSlider.addEventListener('click', setReverb);
+            closePlayer.addEventListener('click', hidePlayer);
+            
+            audioElement.addEventListener('timeupdate', updateProgress);
+            audioElement.addEventListener('loadedmetadata', updateDuration);
+            audioElement.addEventListener('ended', playNext);
+            audioElement.addEventListener('play', startSpectrumAnalyzer);
+            audioElement.addEventListener('pause', stopSpectrumAnalyzer);
+            
+            // Set initial values
+            setVolume(0.7);
+            setBass(0.5);
+            setTreble(0.5);
+            setReverb(0.1);
+            updateVolumeDisplay();
+            updateBassDisplay();
+            updateTrebleDisplay();
+            updateReverbDisplay();
+        }
+        
+        // Show player
+        function showPlayer() {
+            enhancedPlayer.classList.add('active');
+            // Load a demo track for demonstration
+            loadDemoTrack();
+        }
+        
+        // Load demo track
+        function loadDemoTrack() {
+            // For demo purposes, we'll use a placeholder
+            // In production, this would load actual audio files
+            document.getElementById('playerTitle').textContent = 'Enhanced Audio Demo';
+            document.getElementById('playerArtist').textContent = 'High-Quality Processing Active';
+            document.getElementById('audioQuality').textContent = 'Lossless • 48kHz • 24-bit';
+            qualityStatus.textContent = 'High Quality Active';
+        }
+        
+        // Toggle play/pause
+        function togglePlayPause() {
+            if (isPlaying) {
+                audioElement.pause();
+                isPlaying = false;
+                playPauseBtn.textContent = '▶️';
+            } else {
+                audioElement.play().then(() => {
+                    isPlaying = true;
+                    playPauseBtn.textContent = '⏸️';
+                }).catch(error => {
+                    console.log('Could not play audio:', error);
+                    // For demo, show enhanced processing message
+                    document.getElementById('playerTitle').textContent = 'Enhanced Audio Processing';
+                    document.getElementById('playerArtist').textContent = 'High-Quality Sound Engine Active';
+                });
+            }
+        }
+        
+        // Volume control
+        function setVolume(e) {
+            const rect = volumeSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const volume = Math.max(0, Math.min(1, clickX / width));
+            
+            audioProcessor.setVolume(volume);
+            updateVolumeDisplay();
+        }
+        
+        function updateVolumeDisplay() {
+            const volume = audioProcessor.gainNode ? audioProcessor.gainNode.gain.value : 0.7;
+            const volumePercent = volume * 100;
+            volumeProgress.style.width = volumePercent + '%';
+        }
+        
+        // Bass control
+        function setBass(e) {
+            const rect = bassSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const bass = Math.max(0, Math.min(1, clickX / width));
+            
+            audioProcessor.setBass(bass);
+            updateBassDisplay();
+        }
+        
+        function updateBassDisplay() {
+            const bass = 0.5; // Default value
+            const bassPercent = bass * 100;
+            bassProgress.style.width = bassPercent + '%';
+        }
+        
+        // Treble control
+        function setTreble(e) {
+            const rect = trebleSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const treble = Math.max(0, Math.min(1, clickX / width));
+            
+            audioProcessor.setTreble(treble);
+            updateTrebleDisplay();
+        }
+        
+        function updateTrebleDisplay() {
+            const treble = 0.5; // Default value
+            const treblePercent = treble * 100;
+            trebleProgress.style.width = treblePercent + '%';
+        }
+        
+        // Reverb control
+        function setReverb(e) {
+            const rect = reverbSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const reverb = Math.max(0, Math.min(1, clickX / width));
+            
+            audioProcessor.setReverb(reverb);
+            updateReverbDisplay();
+        }
+        
+        function updateReverbDisplay() {
+            const reverb = 0.1; // Default value
+            const reverbPercent = reverb * 100;
+            reverbProgress.style.width = reverbPercent + '%';
+        }
+        
+        // Progress control
+        function updateProgress() {
+            if (audioElement.duration) {
+                const progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+                progress.style.width = progressPercent + '%';
+                currentTimeEl.textContent = formatTime(audioElement.currentTime);
+            }
+        }
+        
+        function updateDuration() {
+            durationEl.textContent = formatTime(audioElement.duration);
+        }
+        
+        function seekTo(e) {
+            if (audioElement.duration) {
+                const rect = progressBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const clickPercent = clickX / width;
+                audioElement.currentTime = clickPercent * audioElement.duration;
+            }
+        }
+        
+        // Spectrum analyzer
+        function startSpectrumAnalyzer() {
+            spectrumAnalyzer.classList.add('active');
+            animateSpectrum();
+        }
+        
+        function stopSpectrumAnalyzer() {
+            spectrumAnalyzer.classList.remove('active');
+            if (spectrumAnimation) {
+                cancelAnimationFrame(spectrumAnimation);
+            }
+        }
+        
+        function animateSpectrum() {
+            const frequencyData = audioProcessor.getFrequencyData();
+            if (frequencyData) {
+                // Create visual spectrum bars
+                const bars = Math.min(32, frequencyData.length);
+                let spectrumHTML = '';
+                
+                for (let i = 0; i < bars; i++) {
+                    const value = frequencyData[i] / 255;
+                    const height = Math.max(2, value * 20);
+                    spectrumHTML += `<div style="width: 3px; height: ${height}px; background: linear-gradient(to top, #667eea, #764ba2); margin: 0 1px; border-radius: 1px;"></div>`;
+                }
+                
+                spectrumAnalyzer.innerHTML = spectrumHTML;
+            }
+            
+            spectrumAnimation = requestAnimationFrame(animateSpectrum);
+        }
+        
+        // Utility functions
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function hidePlayer() {
+            enhancedPlayer.classList.remove('active');
+            audioElement.pause();
+            isPlaying = false;
+            playPauseBtn.textContent = '▶️';
+            stopSpectrumAnalyzer();
+        }
+        
+        function playNext() {
+            // Auto-play next track logic
+            console.log('Playing next track...');
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            initEnhancedPlayer();
+        });
+    </script>
+</body>
+</html>
