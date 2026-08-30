@@ -1,5 +1,19 @@
 # EchoStory changelog
 
+## 2026-08-29 (Umami funnel)
+
+- Umami on `stats.aerocoreos.com` via `config.js` → `umamiWebsiteId` (`1185a8de-16ce-4917-ada7-5a9df59b5e7e`).
+- `analytics.js`: `funnel-enter`, `funnel-nav` (ordered path), `funnel-exit`, `funnel-complete`.
+- See [UMAMI.md](UMAMI.md).
+
+## 2026-08-29 (funnel polish)
+
+- Unified `app-frame` / `scroll-frame` / `landing-frame` for consistent responsive sizing.
+- Split “More than music” intro into two scrollable education pages.
+- Step 1: genre picker first, spin wheel for inspiration, premium play button + scrub bar with pulse hint.
+- Steps 2–3: “Why we ask” callouts for occasion and scale.
+- Step 4: add-ons placed before estimate total; hamburger menu (FAQ, About, How it works, Build now, Pricing, Contact).
+
 ## 2026-08-29
 
 - Synced Collab `master` (`f1cadbd`, longer sample audio) onto the GitHub clone; GitHub had been at `aef1077`.

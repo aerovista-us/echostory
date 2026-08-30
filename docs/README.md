@@ -9,6 +9,7 @@ Repo: [https://github.com/aerovista-us/echostory](https://github.com/aerovista-u
 |-----|-----|
 | [SETUP.md](SETUP.md) | Formspree, audio files, deploy, testing |
 | [SQUARE.md](SQUARE.md) | Square Payment Links now; Checkout API next |
+| [UMAMI.md](UMAMI.md) | Funnel analytics (enter, nav order, exit) |
 | [TESTING-SUMMARY.md](TESTING-SUMMARY.md) | Nov 2025 live-test snapshot (historical) |
 | [../README.md](../README.md) | Product overview and file map |
 | [../SOT.json](../SOT.json) | AeroVista source-of-truth manifest |

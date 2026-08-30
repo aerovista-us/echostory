@@ -8,6 +8,8 @@
  * See docs/SQUARE.md
  */
 window.ECHOSTORY_CONFIG = {
+    /** Umami website UUID — EchoStory on stats.aerocoreos.com (team AeroVista) */
+    umamiWebsiteId: '1185a8de-16ce-4917-ada7-5a9df59b5e7e',
     formspreeFormId: 'YOUR_FORM_ID',
     squareCheckoutBase: 'https://square.link/u/',
     squareLinks: {

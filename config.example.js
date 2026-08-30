@@ -3,6 +3,7 @@
  * Link IDs come from https://square.link/dashboard (format: sq0idp-...).
  */
 window.ECHOSTORY_CONFIG = {
+    umamiWebsiteId: 'YOUR_UMAMI_WEBSITE_ID',
     formspreeFormId: 'YOUR_FORM_ID',
     squareCheckoutBase: 'https://square.link/u/',
     squareLinks: {

@@ -5,6 +5,20 @@
 <title>EchoStory™ | EchoVerse by AeroVista</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Create a custom musical tribute - Your story, turned into song. Interactive wizard to build your perfect EchoStory™ experience.">
+<script src="config.js"></script>
+<script>
+(function () {
+    var cfg = window.ECHOSTORY_CONFIG || {};
+    var id = cfg.umamiWebsiteId;
+    if (!id || String(id).indexOf('YOUR_') === 0) return;
+    var s = document.createElement('script');
+    s.defer = true;
+    s.src = 'https://stats.aerocoreos.com/script.js';
+    s.setAttribute('data-website-id', id);
+    document.head.appendChild(s);
+})();
+</script>
+<script src="analytics.js"></script>
 <style>
     /* ============================================
        PREMIUM ANIMATION SYSTEM & TIMING VARIABLES
@@ -177,12 +191,13 @@
        HEADER & HERO
        ============================================ */
     header {
-        padding: 20px;
-        text-align: center;
+        padding: 16px 0;
+        text-align: left;
         background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(45, 27, 78, 0.8) 100%);
         border-bottom: 2px solid var(--accent);
-        position: relative;
-        z-index: 10;
+        position: sticky;
+        top: 0;
+        z-index: 100;
         animation: fadeInDown 0.6s ease-out;
         box-shadow: 0 4px 20px rgba(255, 0, 110, 0.2);
         backdrop-filter: blur(10px);
@@ -250,9 +265,9 @@
        WIZARD CONTAINER & STEP INDICATOR
        ============================================ */
     .wizard-container {
-        max-width: 900px;
-        margin: 20px auto 40px;
-        padding: 20px;
+        max-width: 100%;
+        margin: 12px 0 24px;
+        padding: 0;
         position: relative;
         z-index: 1;
     }
@@ -457,8 +472,7 @@
         transition: all var(--transition-base);
     }
     
-    .player-
-    demo:hover {
+    .player-demo:hover {
         border-color: var(--accent);
         box-shadow: 0 0 15px rgba(215, 200, 161, 0.2);
     }
@@ -1197,8 +1211,540 @@
     }
     
     /* ============================================
-       ACCESSIBILITY
+       APP FRAME — shared viewport for all screens
        ============================================ */
+    .app-shell {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .app-frame {
+        width: min(100%, 960px);
+        margin: 0 auto;
+        padding: clamp(12px, 3vw, 24px);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 1;
+    }
+
+    .scroll-frame {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        max-height: calc(100vh - 88px);
+        padding-right: 4px;
+    }
+
+    .scroll-frame::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .scroll-frame::-webkit-scrollbar-thumb {
+        background: rgba(255, 0, 110, 0.35);
+        border-radius: 8px;
+    }
+
+    .landing-page .landing-frame {
+        width: min(100%, 960px);
+        max-height: 100vh;
+        margin: 0 auto;
+        padding: clamp(16px, 4vw, 32px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .landing-page .landing-frame::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .landing-page .landing-frame::-webkit-scrollbar-thumb {
+        background: rgba(0, 217, 255, 0.35);
+        border-radius: 8px;
+    }
+
+    .frame-footer-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 700px;
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 0, 110, 0.2);
+        flex-wrap: wrap;
+    }
+
+    .frame-dots {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .frame-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(157, 142, 199, 0.4);
+        transition: all var(--transition-base);
+    }
+
+    .frame-dot.active {
+        width: 28px;
+        border-radius: 999px;
+        background: var(--accent-cyan);
+        box-shadow: var(--glow-cyan);
+    }
+
+    /* Site nav / hamburger */
+    .site-header-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 clamp(12px, 3vw, 24px);
+    }
+
+    .site-header-bar .brand-block {
+        text-align: left;
+        flex: 1;
+    }
+
+    .site-header-bar .brand-block h1 {
+        font-size: clamp(1.4rem, 4vw, 2.5rem);
+        margin: 0;
+    }
+
+    .site-header-bar .brand-block p {
+        margin: 4px 0 0;
+    }
+
+    .menu-toggle {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        border: 2px solid rgba(255, 0, 110, 0.4);
+        background: rgba(26, 11, 46, 0.85);
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-shrink: 0;
+        transition: all var(--transition-base);
+        backdrop-filter: blur(10px);
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--accent-cyan);
+        border-radius: 2px;
+        transition: all var(--transition-base);
+    }
+
+    .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .menu-toggle:hover {
+        border-color: var(--accent-cyan);
+        box-shadow: var(--glow-cyan);
+    }
+
+    .site-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(320px, 88vw);
+        height: 100vh;
+        background: linear-gradient(180deg, rgba(26, 11, 46, 0.98) 0%, rgba(10, 1, 24, 0.98) 100%);
+        border-left: 2px solid rgba(255, 0, 110, 0.35);
+        z-index: 10001;
+        transform: translateX(100%);
+        transition: transform var(--transition-base);
+        padding: 80px 24px 24px;
+        overflow-y: auto;
+        backdrop-filter: blur(20px);
+    }
+
+    .site-drawer.open {
+        transform: translateX(0);
+    }
+
+    .site-drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 1, 24, 0.65);
+        z-index: 10000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition-base);
+    }
+
+    .site-drawer-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .site-drawer nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .site-drawer a,
+    .site-drawer button.drawer-link {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 0, 110, 0.15);
+        background: rgba(45, 27, 78, 0.5);
+        color: var(--text-soft);
+        text-decoration: none;
+        font-size: 1rem;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all var(--transition-base);
+    }
+
+    .site-drawer a:hover,
+    .site-drawer button.drawer-link:hover {
+        border-color: var(--accent-cyan);
+        color: var(--text);
+        background: rgba(255, 0, 110, 0.12);
+    }
+
+    .site-drawer .drawer-cta {
+        margin-top: 12px;
+        background: var(--gradient-primary);
+        border: none;
+        color: var(--text);
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .info-panel {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 10002;
+        background: rgba(10, 1, 24, 0.85);
+        padding: clamp(16px, 4vw, 32px);
+        overflow-y: auto;
+        backdrop-filter: blur(8px);
+    }
+
+    .info-panel.open {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .info-panel-inner {
+        width: min(100%, 720px);
+        background: linear-gradient(135deg, rgba(26, 11, 46, 0.95) 0%, rgba(45, 27, 78, 0.95) 100%);
+        border: 2px solid rgba(0, 217, 255, 0.35);
+        border-radius: 16px;
+        padding: clamp(20px, 4vw, 32px);
+        margin-top: 40px;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    .info-panel-inner h2 {
+        color: var(--accent-cyan);
+        margin-bottom: 16px;
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
+    }
+
+    .info-panel-inner p,
+    .info-panel-inner li {
+        color: var(--text-soft);
+        line-height: 1.7;
+        margin-bottom: 12px;
+    }
+
+    .info-panel-close {
+        float: right;
+        background: transparent;
+        border: none;
+        color: var(--muted);
+        font-size: 1.5rem;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .step-callout {
+        background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(255, 0, 110, 0.08) 100%);
+        border: 1px solid rgba(0, 217, 255, 0.25);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 20px;
+    }
+
+    .step-callout strong {
+        display: block;
+        color: var(--accent-cyan);
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .step-callout p {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--text-soft);
+        line-height: 1.6;
+    }
+
+    /* Step 1 — genre first, wheel second */
+    .genre-section {
+        margin-bottom: 28px;
+    }
+
+    .genre-section-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+
+    .genre-section-label h4 {
+        margin: 0;
+        color: var(--accent-cyan);
+        font-size: 1.05rem;
+    }
+
+    .wheel-section {
+        margin: 28px 0;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(10, 1, 24, 0.45);
+        border: 1px dashed rgba(255, 0, 110, 0.35);
+        text-align: center;
+    }
+
+    .wheel-section h4 {
+        color: var(--accent-orange);
+        margin-bottom: 6px;
+    }
+
+    .wheel-section .wheel-hint {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+    }
+
+    .vibe-wheel-wrap {
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .wheel-pointer {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 14px solid transparent;
+        border-right: 14px solid transparent;
+        border-top: 22px solid var(--accent-orange);
+        filter: drop-shadow(0 0 8px rgba(251, 133, 0, 0.8));
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    #vibeWheel {
+        width: min(300px, 72vw);
+        height: min(300px, 72vw);
+        margin: 0 auto;
+        position: relative;
+        cursor: pointer;
+        transition: transform 2.5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+    }
+
+    #vibeWheel svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    #spinWheelBtn {
+        margin-top: 16px;
+        font-size: 1.05rem;
+        padding: 14px 28px;
+    }
+
+    /* Premium custom audio player */
+    .premium-player {
+        margin-top: 16px;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(10, 1, 24, 0.6);
+        border: 2px solid rgba(0, 217, 255, 0.2);
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 12px 16px;
+        align-items: center;
+        transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .premium-player.has-track {
+        border-color: rgba(0, 217, 255, 0.45);
+    }
+
+    .premium-player.pulse-hint {
+        animation: playerPulse 1.2s ease-in-out 3;
+    }
+
+    @keyframes playerPulse {
+        0%, 100% { box-shadow: 0 0 0 rgba(0, 217, 255, 0); border-color: rgba(0, 217, 255, 0.45); }
+        50% { box-shadow: 0 0 30px rgba(0, 217, 255, 0.45); border-color: var(--accent-cyan); }
+    }
+
+    .premium-play-btn {
+        grid-row: 1 / 3;
+        width: clamp(64px, 14vw, 80px);
+        height: clamp(64px, 14vw, 80px);
+        border-radius: 50%;
+        border: 3px solid var(--accent-cyan);
+        background: var(--gradient-accent);
+        color: var(--text);
+        font-size: clamp(1.6rem, 5vw, 2rem);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow-cyan);
+        transition: transform var(--transition-base);
+        flex-shrink: 0;
+    }
+
+    .premium-play-btn:hover:not(:disabled) {
+        transform: scale(1.06);
+    }
+
+    .premium-play-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+    .premium-play-btn.playing {
+        animation: playBtnGlow 1.5s ease-in-out infinite;
+    }
+
+    @keyframes playBtnGlow {
+        0%, 100% { box-shadow: var(--glow-cyan); }
+        50% { box-shadow: 0 0 35px rgba(0, 217, 255, 0.9); }
+    }
+
+    .premium-track-title {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 1rem;
+    }
+
+    .premium-track-sub {
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+
+    .premium-scrub-wrap {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .premium-scrub-track {
+        position: relative;
+        height: 10px;
+        background: rgba(157, 142, 199, 0.25);
+        border-radius: 999px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .premium-scrub-fill {
+        height: 100%;
+        width: 0%;
+        background: var(--gradient-accent);
+        border-radius: 999px;
+        transition: width 0.1s linear;
+    }
+
+    .premium-scrub-input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .premium-time-row {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: var(--accent-soft);
+    }
+
+    /* Package step — addons before total */
+    .checkout-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 20px;
+    }
+
+    .checkout-stack .subtotal-box {
+        order: 99;
+    }
+
+    @media (max-width: 768px) {
+        .scroll-frame {
+            max-height: calc(100vh - 76px);
+        }
+
+        .site-header-bar .brand-block h1 {
+            letter-spacing: 1px;
+        }
+
+        .premium-player {
+            grid-template-columns: auto 1fr;
+        }
+    }
+
     .sr-only {
         position: absolute;
         width: 1px;
@@ -1424,12 +1970,11 @@
         align-items: center;
         justify-content: flex-start;
         text-align: center;
-        padding: 30px 20px;
+        padding: 10px 0 24px;
         animation: fadeIn 1s ease-out;
-        max-width: 1000px;
+        width: 100%;
+        max-width: 900px;
         margin: 0 auto;
-        max-height: 100vh;
-        overflow-y: auto;
     }
     
     .education-screen.show {
@@ -1763,98 +2308,98 @@
 
 <!-- 90s Mixtape Landing Page -->
 <div class="landing-page" id="landingPage">
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div style="position: relative;">
-            <img src="images/LoadingEV.png" alt="EchoVerse Loading" class="loading-logo">
-            <div class="loading-spinner"></div>
+    <div class="landing-frame">
+        <!-- Loading Screen -->
+        <div class="loading-screen" id="loadingScreen">
+            <div style="position: relative;">
+                <img src="images/LoadingEV.png" alt="EchoVerse Loading" class="loading-logo">
+                <div class="loading-spinner"></div>
+            </div>
+            <div class="loading-text">Loading your music universe...</div>
         </div>
-        <div class="loading-text">Loading your music universe...</div>
-    </div>
-    
-    <!-- Hero Screen -->
-    <div class="hero-screen" id="heroScreen">
-        <img src="images/EVonBike.png" alt="Welcome to EchoVerse" class="hero-image">
-        <h1 class="hero-tagline">🎧 Your Story, Their Soundtrack 🎵</h1>
-        <p class="hero-subtitle">
-            Create a custom mixtape experience - A musical tribute that celebrates life, love, and the moments that matter most.
-        </p>
-        <button class="hero-cta" id="startButton">🎸 Start Building Your EchoStory</button>
         
-        <!-- Cassette Tape Decorations -->
-        <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-left">
-        <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-right">
-        <img src="images/EV-DigBars.png" alt="" class="bars-decoration">
-    </div>
-    
-    <!-- Education/About Screen -->
-    <div class="education-screen" id="educationScreen">
-        <img src="images/EV-Echo-verse.png" alt="Custom Music Player" class="education-image">
-        
-        <h2 class="education-title">More Than Music. A Memory That Lasts Forever.</h2>
-        
-        <div class="education-content">
-            <p class="education-paragraph">
-                Imagine giving someone their own custom music player—filled with songs written <strong>just for them</strong>. Not a playlist. Not a mixtape. A complete musical universe where <strong>every lyric tells their story</strong>, every melody captures their spirit, and every track is a memory brought to life.
+        <!-- Hero Screen -->
+        <div class="hero-screen" id="heroScreen">
+            <img src="images/EVonBike.png" alt="Welcome to EchoVerse" class="hero-image">
+            <h1 class="hero-tagline">Your Story, Their Soundtrack</h1>
+            <p class="hero-subtitle">
+                Create a custom mixtape experience — a musical tribute that celebrates life, love, and the moments that matter most.
             </p>
-            
-            <p class="education-paragraph">
-                EchoStory transforms the people you love into art. We craft original music about <em>their</em> life, <em>their</em> moments, and <em>their</em> legacy—then deliver it in a beautiful, interactive experience they can treasure forever.
+            <button class="hero-cta" id="startButton">Start Building Your EchoStory</button>
+            <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-left">
+            <img src="images/EV-2Tapes.png" alt="" class="tape-decoration tape-right">
+            <img src="images/EV-DigBars.png" alt="" class="bars-decoration">
+        </div>
+        
+        <!-- Education Page 1 -->
+        <div class="education-screen" id="educationScreen1">
+            <img src="images/EV-Echo-verse.png" alt="Custom Music Player" class="education-image">
+            <h2 class="education-title">More Than Music. A Memory That Lasts Forever.</h2>
+            <div class="education-content">
+                <p class="education-paragraph">
+                    Imagine giving someone their own custom music player — filled with songs written <strong>just for them</strong>. Not a playlist. Not a mixtape. A complete musical universe where <strong>every lyric tells their story</strong>.
+                </p>
+                <p class="education-paragraph">
+                    EchoStory transforms the people you love into art. We craft original music about <em>their</em> life, <em>their</em> moments, and <em>their</em> legacy — then deliver it in a beautiful, interactive experience they can treasure forever.
+                </p>
+            </div>
+            <div class="frame-footer-nav">
+                <div class="frame-dots" aria-hidden="true">
+                    <span class="frame-dot active"></span>
+                    <span class="frame-dot"></span>
+                </div>
+                <button class="hero-cta" id="educationNext1" type="button">Continue</button>
+            </div>
+        </div>
+
+        <!-- Education Page 2 -->
+        <div class="education-screen" id="educationScreen2">
+            <h2 class="education-title" style="font-size: 1.75rem;">How EchoStory Works</h2>
+            <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.6) 0%, rgba(45, 27, 78, 0.6) 100%); border: 2px solid rgba(0, 217, 255, 0.3); border-radius: 16px; padding: 24px; margin: 20px 0; width: 100%; max-width: 700px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px;">1. You share their story</div>
+                        <div style="font-size: 0.88rem; color: var(--text-soft); line-height: 1.6;">Vibe, occasion, memories — a few guided questions, no pressure.</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-weight: 700; color: var(--accent); margin-bottom: 8px;">2. We compose & build</div>
+                        <div style="font-size: 0.88rem; color: var(--text-soft); line-height: 1.6;">Original songs, artwork, and an interactive EchoStory player.</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-weight: 700; color: var(--accent-orange); margin-bottom: 8px;">3. You review & celebrate</div>
+                        <div style="font-size: 0.88rem; color: var(--text-soft); line-height: 1.6;">Refine until it's perfect, then share a one-of-a-kind tribute.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="education-features">
+                <div class="education-feature">
+                    <div class="education-feature-icon">🎵</div>
+                    <div class="education-feature-title">100% Original Music</div>
+                    <div class="education-feature-desc">Every song is custom-written about them — no covers, no generic lyrics.</div>
+                </div>
+                <div class="education-feature">
+                    <div class="education-feature-icon">💝</div>
+                    <div class="education-feature-title">Any Occasion</div>
+                    <div class="education-feature-desc">Birthdays, weddings, memorials, retirements — we theme the whole experience.</div>
+                </div>
+                <div class="education-feature">
+                    <div class="education-feature-icon">🎨</div>
+                    <div class="education-feature-title">Interactive Keepsakes</div>
+                    <div class="education-feature-desc">Artwork, QR codes, guestbooks, and shareable pages they'll revisit.</div>
+                </div>
+            </div>
+            <p class="education-paragraph" style="font-size: 1.15rem; color: var(--accent-orange); font-weight: 700;">
+                Ready to create something unforgettable?
             </p>
-        </div>
-        
-        <!-- How It Works -->
-        <div style="background: linear-gradient(135deg, rgba(26, 11, 46, 0.6) 0%, rgba(45, 27, 78, 0.6) 100%); border: 2px solid rgba(0, 217, 255, 0.3); border-radius: 16px; padding: 30px; margin: 35px 0; backdrop-filter: blur(20px);">
-            <h3 style="color: var(--accent-cyan); margin-bottom: 25px; font-size: 1.5rem; text-align: center;">✨ How It Works</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 20px;">
-                <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5));">1️⃣</div>
-                    <div style="font-weight: 700; color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.1rem;">You Answer Questions</div>
-                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">You answer a few questions about your person—their vibe, occasion, and special memories.</div>
+            <div class="frame-footer-nav">
+                <button class="btn secondary" id="educationBack2" type="button">Back</button>
+                <div class="frame-dots" aria-hidden="true">
+                    <span class="frame-dot"></span>
+                    <span class="frame-dot active"></span>
                 </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5));">2️⃣</div>
-                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 10px; font-size: 1.1rem;">We Create</div>
-                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">We create custom songs + artwork based on their life, turning their story into original music.</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.5));">3️⃣</div>
-                    <div style="font-weight: 700; color: #8A2BE2; margin-bottom: 10px; font-size: 1.1rem;">Review & Refine</div>
-                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">You review your EchoStory and request any adjustments. We refine until it's perfect for your person.</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(251, 133, 0, 0.5));">4️⃣</div>
-                    <div style="font-weight: 700; color: var(--accent-orange); margin-bottom: 10px; font-size: 1.1rem;">Share & Celebrate</div>
-                    <div style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6;">You receive a private EchoStory player, links, and (optionally) printable keepsakes. They experience a one-of-a-kind musical tribute made just for them.</div>
-                </div>
+                <button class="hero-cta" id="continueButton" type="button">Build Their EchoStory</button>
             </div>
         </div>
-        
-        <div class="education-features">
-            <div class="education-feature">
-                <div class="education-feature-icon">🎵</div>
-                <div class="education-feature-title">100% Original Music</div>
-                <div class="education-feature-desc">Every song is custom-written about them. No covers, no generic lyrics—just their story in sound.</div>
-            </div>
-            
-            <div class="education-feature">
-                <div class="education-feature-icon">💝</div>
-                <div class="education-feature-title">Perfect for Any Occasion</div>
-                <div class="education-feature-desc">Birthdays, weddings, anniversaries, retirements—celebrate life's biggest moments with something truly unique.</div>
-            </div>
-            
-            <div class="education-feature">
-                <div class="education-feature-icon">🎨</div>
-                <div class="education-feature-title">Beautiful & Interactive</div>
-                <div class="education-feature-desc">Custom artwork, QR codes, tribute pages, and shareable digital keepsakes they'll visit again and again.</div>
-            </div>
-        </div>
-        
-        <p class="education-paragraph" style="font-size: 1.3rem; color: var(--accent-orange); font-weight: 700; margin-top: 30px;">
-            Ready to create something unforgettable?
-        </p>
-        
-        <button class="hero-cta" id="continueButton">🎧 Let's Build Their EchoStory</button>
     </div>
 </div>
 
@@ -1870,19 +2415,41 @@
 <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
 
 <header>
-    <h1>EchoStory™</h1>
-    <p>EchoVerse | AeroVista — Your story, turned into song.</p>
+    <div class="site-header-bar">
+        <div class="brand-block">
+            <h1>EchoStory™</h1>
+            <p>EchoVerse | AeroVista — Your story, turned into song.</p>
+        </div>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteDrawer">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </header>
 
+<div class="site-drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+<aside class="site-drawer" id="siteDrawer" aria-hidden="true">
+    <nav aria-label="Site menu">
+        <button type="button" class="drawer-link drawer-cta" data-nav="build">Build Your EchoStory Now</button>
+        <button type="button" class="drawer-link" data-nav="how">How This Works</button>
+        <button type="button" class="drawer-link" data-nav="about">About EchoStory</button>
+        <button type="button" class="drawer-link" data-nav="faq">Frequently Asked Questions</button>
+        <button type="button" class="drawer-link" data-nav="pricing">Packages & Pricing</button>
+        <button type="button" class="drawer-link" data-nav="contact">Step 5 · Send Request</button>
+    </nav>
+</aside>
+
+<div class="app-shell">
+<div class="app-frame">
 <section class="hero">
     <h2>Build a Custom Musical Tribute</h2>
     <p>
-        We'll ask you a few quick questions, let you play with some options,
-        then show you a tailored EchoStory™ package with fun add-ons like guestbooks,
-        mini-games, and interactive pages. No pressure — just explore.
+        We'll ask you a few quick questions, let you preview vibes,
+        then show you a tailored EchoStory™ package with optional add-ons.
+        No pressure — just explore.
     </p>
 </section>
 
+<div class="scroll-frame">
 <div class="wizard-container">
 
     <!-- Step dots (5 steps now) -->
@@ -1897,78 +2464,102 @@
     <!-- STEP 1: VIBE SELECTION -->
     <div class="wizard-step active" data-step="1" role="tabpanel" aria-labelledby="step-1">
         <h3>Step 1 · Choose the Vibe</h3>
-        <p>What kind of sound feels right for this person? Tap to explore a few moods.</p>
+        <p>Pick a genre that feels like them — then preview a sample. Not sure? Spin the wheel for inspiration.</p>
 
-        <!-- Vibe Sampler Wheel -->
-        <div id="vibeWheelContainer" style="margin: 25px 0; text-align: center;">
-            <h4 style="color: var(--accent); margin-bottom: 15px;">🎧 Spin to Discover Your Vibe</h4>
-            <div id="vibeWheel" style="width: 300px; height: 300px; margin: 0 auto; position: relative; cursor: pointer; transition: transform 2s cubic-bezier(0.23, 1, 0.32, 1);">
-                <svg width="300" height="300" viewBox="0 0 300 300" style="filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));">
-                    <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(215, 200, 161, 0.3)" stroke-width="2"/>
-                    <g id="wheelSegments"></g>
-                    <circle cx="150" cy="150" r="20" fill="var(--accent)" style="filter: drop-shadow(0 0 10px var(--accent));"/>
-                    <line x1="150" y1="10" x2="150" y2="30" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" style="filter: drop-shadow(0 0 5px var(--accent));"/>
-                </svg>
+        <div class="genre-section">
+            <div class="genre-section-label">
+                <h4>Genre picker</h4>
+                <span class="note-mini">Tap a card to select & preview</span>
             </div>
-            <button id="spinWheelBtn" class="btn" style="margin-top: 20px;">🎲 Spin the Wheel</button>
-            <p class="note-mini" id="wheelResult" style="margin-top: 15px; min-height: 20px;"></p>
-        </div>
-        
-        <div class="choice-grid" id="vibeChoices" role="group" aria-label="Vibe selection">
-            <div class="choice-card" data-vibe="jazz" role="button" tabindex="0" aria-label="Jazz Swing vibe">
-                <div class="choice-label">🎷 Jazz Swing</div>
-                <div class="choice-desc">Frank Sinatra, smoky lounge, smooth swing.</div>
-            </div>
-            <div class="choice-card" data-vibe="lounge" role="button" tabindex="0" aria-label="Lounge vibe">
-                <div class="choice-label">🍸 Lounge</div>
-                <div class="choice-desc">Smooth, sophisticated, late-night elegance.</div>
-            </div>
-            <div class="choice-card" data-vibe="acoustic" role="button" tabindex="0" aria-label="Acoustic vibe">
-                <div class="choice-label">🎸 Acoustic</div>
-                <div class="choice-desc">Warm guitar, storytellers, intimate and close.</div>
-            </div>
-            <div class="choice-card" data-vibe="modernPop" role="button" tabindex="0" aria-label="Modern Pop vibe">
-                <div class="choice-label">🎤 Modern Pop</div>
-                <div class="choice-desc">Contemporary, vibrant, radio-ready.</div>
-            </div>
-            <div class="choice-card" data-vibe="country" role="button" tabindex="0" aria-label="Country vibe">
-                <div class="choice-label">🤠 Country</div>
-                <div class="choice-desc">Heartfelt storytelling, twang and warmth.</div>
-            </div>
-            <div class="choice-card" data-vibe="lofi" role="button" tabindex="0" aria-label="Lofi / Chill vibe">
-                <div class="choice-label">🎹 Lofi / Chill</div>
-                <div class="choice-desc">Soft beats, cozy, reflective, late-night vibes.</div>
-            </div>
-            <div class="choice-card" data-vibe="gamey" role="button" tabindex="0" aria-label="8-bit / Gamey vibe">
-                <div class="choice-label">🎮 8-bit / Gamey</div>
-                <div class="choice-desc">Playful, nostalgic, chiptune-inspired fun.</div>
-            </div>
-            <div class="choice-card" data-vibe="cinematic" role="button" tabindex="0" aria-label="Cinematic vibe">
-                <div class="choice-label">🎬 Cinematic</div>
-                <div class="choice-desc">Big, emotional, soundtrack-style.</div>
-            </div>
-            <div class="choice-card" data-vibe="loveBallad" role="button" tabindex="0" aria-label="Love Ballad vibe">
-                <div class="choice-label">💕 Love Ballad</div>
-                <div class="choice-desc">Romantic, tender, heartwarming melodies.</div>
-            </div>
-            <div class="choice-card" data-vibe="storytelling" role="button" tabindex="0" aria-label="Storytelling Mode vibe">
-                <div class="choice-label">📖 Storytelling Mode</div>
-                <div class="choice-desc">Narrative-driven, lyrical, poetic.</div>
+            <div class="choice-grid" id="vibeChoices" role="group" aria-label="Vibe selection">
+                <div class="choice-card" data-vibe="jazz" role="button" tabindex="0" aria-label="Jazz Swing vibe">
+                    <div class="choice-label">Jazz Swing</div>
+                    <div class="choice-desc">Smoky lounge, smooth swing.</div>
+                </div>
+                <div class="choice-card" data-vibe="lounge" role="button" tabindex="0" aria-label="Lounge vibe">
+                    <div class="choice-label">Lounge</div>
+                    <div class="choice-desc">Late-night elegance.</div>
+                </div>
+                <div class="choice-card" data-vibe="acoustic" role="button" tabindex="0" aria-label="Acoustic vibe">
+                    <div class="choice-label">Acoustic</div>
+                    <div class="choice-desc">Warm, intimate guitar.</div>
+                </div>
+                <div class="choice-card" data-vibe="modernPop" role="button" tabindex="0" aria-label="Modern Pop vibe">
+                    <div class="choice-label">Modern Pop</div>
+                    <div class="choice-desc">Contemporary & vibrant.</div>
+                </div>
+                <div class="choice-card" data-vibe="country" role="button" tabindex="0" aria-label="Country vibe">
+                    <div class="choice-label">Country</div>
+                    <div class="choice-desc">Heartfelt storytelling.</div>
+                </div>
+                <div class="choice-card" data-vibe="lofi" role="button" tabindex="0" aria-label="Lofi / Chill vibe">
+                    <div class="choice-label">Lofi / Chill</div>
+                    <div class="choice-desc">Cozy, reflective beats.</div>
+                </div>
+                <div class="choice-card" data-vibe="gamey" role="button" tabindex="0" aria-label="8-bit / Gamey vibe">
+                    <div class="choice-label">8-bit / Gamey</div>
+                    <div class="choice-desc">Playful chiptune fun.</div>
+                </div>
+                <div class="choice-card" data-vibe="cinematic" role="button" tabindex="0" aria-label="Cinematic vibe">
+                    <div class="choice-label">Cinematic</div>
+                    <div class="choice-desc">Big, emotional soundtrack.</div>
+                </div>
+                <div class="choice-card" data-vibe="loveBallad" role="button" tabindex="0" aria-label="Love Ballad vibe">
+                    <div class="choice-label">Love Ballad</div>
+                    <div class="choice-desc">Romantic & tender.</div>
+                </div>
+                <div class="choice-card" data-vibe="storytelling" role="button" tabindex="0" aria-label="Storytelling Mode vibe">
+                    <div class="choice-label">Storytelling</div>
+                    <div class="choice-desc">Narrative, poetic lyrics.</div>
+                </div>
             </div>
         </div>
 
-        <div class="player-demo">
-            <strong>🎵 Preview the Vibe</strong>
-            <p class="note-mini" id="audioStatus">
-                Select a vibe above to hear a preview snippet.
-            </p>
-            <div class="audio-container">
-                <audio id="audioPlayer" controls preload="none" aria-label="Audio preview player">
+        <div class="wheel-section">
+            <h4>Unsure? Spin for ideas</h4>
+            <p class="wheel-hint">The wheel picks a random genre — you can still change it anytime.</p>
+            <div id="vibeWheelContainer">
+                <div class="vibe-wheel-wrap">
+                    <div class="wheel-pointer" aria-hidden="true"></div>
+                    <div id="vibeWheel">
+                        <svg viewBox="0 0 300 300" style="filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));">
+                            <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(215, 200, 161, 0.3)" stroke-width="2"/>
+                            <g id="wheelSegments"></g>
+                            <circle cx="150" cy="150" r="24" fill="var(--accent)" style="filter: drop-shadow(0 0 10px var(--accent));"/>
+                        </svg>
+                    </div>
+                </div>
+                <button id="spinWheelBtn" class="btn" type="button">Spin the Wheel</button>
+                <p class="note-mini" id="wheelResult" style="margin-top: 15px; min-height: 20px;"></p>
+            </div>
+        </div>
+
+        <div class="player-demo" id="playerDemo">
+            <strong>Preview the vibe</strong>
+            <p class="note-mini" id="audioStatus">Select a genre above to load a preview.</p>
+            <div class="premium-player" id="premiumPlayer">
+                <button type="button" class="premium-play-btn" id="premiumPlayBtn" disabled aria-label="Play preview">▶</button>
+                <div>
+                    <div class="premium-track-title" id="premiumTrackTitle">No preview loaded</div>
+                    <div class="premium-track-sub" id="premiumTrackSub">Choose a genre or spin the wheel</div>
+                </div>
+                <div class="premium-scrub-wrap">
+                    <div class="premium-scrub-track" id="premiumScrubTrack">
+                        <div class="premium-scrub-fill" id="premiumScrubFill"></div>
+                        <input type="range" class="premium-scrub-input" id="premiumScrub" min="0" max="100" value="0" aria-label="Seek preview">
+                    </div>
+                </div>
+                <div class="premium-time-row">
+                    <span id="premiumCurrent">0:00</span>
+                    <span id="premiumDuration">0:00</span>
+                </div>
+            </div>
+            <div class="audio-container" style="display:none;">
+                <audio id="audioPlayer" preload="none" aria-label="Audio preview player">
                     <source id="audioSource" src="" type="audio/mpeg">
-                    Your browser does not support the audio element.
                 </audio>
                 <div class="audio-loading" id="audioLoading">Loading preview...</div>
-                <div class="audio-error" id="audioError">Preview unavailable. Audio will be available in your final EchoStory™.</div>
+                <div class="audio-error" id="audioError">Preview unavailable. Audio will be available in your final EchoStory.</div>
             </div>
         </div>
 
@@ -1981,7 +2572,12 @@
     <!-- STEP 2: OCCASION SELECTION -->
     <div class="wizard-step" data-step="2" role="tabpanel" aria-labelledby="step-2">
         <h3>Step 2 · What's the Occasion?</h3>
-        <p>We'll theme the story, artwork, and interactive elements around this moment.</p>
+        <p>This isn't just a label — it shapes colors, artwork, tone, and how the EchoStory feels when they open it.</p>
+
+        <div class="step-callout">
+            <strong>Why we ask</strong>
+            <p>A birthday EchoStory feels different from a memorial or wedding. Occasion tells us whether to lean celebratory, romantic, gentle, or legacy-focused — so the music and visuals match the moment you're honoring.</p>
+        </div>
 
         <div class="choice-grid" id="occasionChoices" role="group" aria-label="Occasion selection">
             <div class="choice-card" data-occasion="birthday" role="button" tabindex="0" aria-label="Birthday occasion">
@@ -2019,7 +2615,12 @@
     <!-- STEP 3: SCALE SELECTION -->
     <div class="wizard-step" data-step="3" role="tabpanel" aria-labelledby="step-3">
         <h3>Step 3 · How Big Should This Feel?</h3>
-        <p>This helps us recommend an EchoStory™ level that matches the moment—before we ever ask you to pay.</p>
+        <p>Think emotional scope, not budget — we'll recommend packages that fit the weight of the moment.</p>
+
+        <div class="step-callout">
+            <strong>Why we ask</strong>
+            <p>A quick "sweet & simple" tribute for a small moment needs fewer songs and pages than a multi-generational legacy piece. This helps us suggest the right EchoStory tier before you see prices — so you're not guessing between Mini and Eternal.</p>
+        </div>
 
         <div class="choice-grid" id="scaleChoices" role="group" aria-label="Scale selection">
             <div class="choice-card" data-scale="small" role="button" tabindex="0" aria-label="Sweet & Simple scale">
@@ -2126,18 +2727,8 @@
             </div>
         </div>
         
-        <!-- Upsell Chips Container -->
-        <div id="upsellChipsContainer" style="display: none; margin-top: 25px; padding: 20px; background: rgba(215, 200, 161, 0.05); border-radius: 12px; border: 1px solid rgba(215, 200, 161, 0.2);">
-            <h4 style="margin: 0 0 15px; color: var(--accent); font-size: 1.1rem;">Add to Their EchoStory?</h4>
-            <div id="upsellChips" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-        </div>
-        
-        <!-- Bundle Reveal Animation Container -->
-        <div id="bundleRevealContainer" style="display: none; margin-top: 25px; padding: 20px; background: rgba(215, 200, 161, 0.1); border-radius: 12px; border: 1px solid rgba(215, 200, 161, 0.3); text-align: center; min-height: 200px; position: relative; overflow: hidden;">
-            <div id="bundleRevealContent"></div>
-        </div>
-
-        <!-- Add-ons -->
+        <div class="checkout-stack">
+        <!-- Add-ons before final price -->
         <div class="addons">
             <h4>Add-Ons (Optional)</h4>
             <div class="addon-item">
@@ -2223,6 +2814,17 @@
             </div>
         </div>
 
+        <!-- Upsell Chips Container -->
+        <div id="upsellChipsContainer" style="display: none; margin-top: 0; padding: 20px; background: rgba(215, 200, 161, 0.05); border-radius: 12px; border: 1px solid rgba(215, 200, 161, 0.2);">
+            <h4 style="margin: 0 0 15px; color: var(--accent); font-size: 1.1rem;">Quick add-ons</h4>
+            <div id="upsellChips" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+        </div>
+        
+        <!-- Bundle Reveal Animation Container -->
+        <div id="bundleRevealContainer" style="display: none; margin-top: 0; padding: 20px; background: rgba(215, 200, 161, 0.1); border-radius: 12px; border: 1px solid rgba(215, 200, 161, 0.3); text-align: center; min-height: 200px; position: relative; overflow: hidden;">
+            <div id="bundleRevealContent"></div>
+        </div>
+
         <!-- Subtotal -->
         <div class="subtotal-box">
             <div>
@@ -2238,6 +2840,7 @@
                 </button>
             </div>
         </div>
+        </div><!-- /.checkout-stack -->
 
         <div class="wizard-nav">
             <button class="btn secondary" data-back aria-label="Previous step">Back</button>
@@ -2403,10 +3006,13 @@
         </div>
     </div>
 
-</div>
+</div><!-- /.wizard-container -->
+</div><!-- /.scroll-frame -->
+</div><!-- /.app-frame -->
+</div><!-- /.app-shell -->
 
 <!-- FAQ Section -->
-<section style="max-width: 900px; margin: 60px auto; padding: 0 20px;">
+<section id="faqSection" style="max-width: 900px; margin: 60px auto; padding: 0 20px;">
     <h2 style="text-align: center; color: var(--accent-cyan); margin-bottom: 40px; font-size: 2rem; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">❓ Frequently Asked Questions</h2>
     
     <div style="display: grid; gap: 20px;">
@@ -2456,6 +3062,30 @@
         </div>
     </div>
 </section>
+
+<div class="info-panel" id="aboutPanel" role="dialog" aria-labelledby="aboutPanelTitle">
+    <div class="info-panel-inner">
+        <button type="button" class="info-panel-close" data-close-panel aria-label="Close">&times;</button>
+        <h2 id="aboutPanelTitle">About EchoStory</h2>
+        <p>EchoStory is an EchoVerse product by AeroVista — custom musical tributes built from real stories, not generic templates.</p>
+        <p>Each EchoStory includes original songs, themed artwork, and an interactive player your person can open again and again. You explore options here; we compose, refine, and deliver when it's ready.</p>
+        <p><strong>Live storefront:</strong> <a href="https://aerovista-us.github.io/echostory/" style="color: var(--accent-cyan);">aerovista-us.github.io/echostory</a></p>
+    </div>
+</div>
+
+<div class="info-panel" id="howPanel" role="dialog" aria-labelledby="howPanelTitle">
+    <div class="info-panel-inner">
+        <button type="button" class="info-panel-close" data-close-panel aria-label="Close">&times;</button>
+        <h2 id="howPanelTitle">How This Works</h2>
+        <ol style="padding-left: 1.2rem; color: var(--text-soft); line-height: 1.8;">
+            <li><strong>Explore</strong> — Pick vibe, occasion, and scale in the wizard (no payment yet).</li>
+            <li><strong>Choose package & add-ons</strong> — See an estimate; adjust until it feels right.</li>
+            <li><strong>Submit your request</strong> — Share memories via the form; we review details.</li>
+            <li><strong>Pay & create</strong> — Optional Square checkout for the base package, or invoice for the full total.</li>
+            <li><strong>Receive & celebrate</strong> — Private EchoStory link, downloads, and keepsakes.</li>
+        </ol>
+    </div>
+</div>
 
 <footer>
     EchoStory™ · EchoVerse | AeroVista · Built for moments that deserve more than store-bought.
@@ -2635,6 +3265,12 @@
     // ============================================
     let currentStep = 1;
     const totalSteps = 5;
+    let landingDismissed = false;
+    
+    function trackFunnel(screenId, extra) {
+        if (!window.EchoStoryAnalytics) return;
+        EchoStoryAnalytics.trackScreen(screenId, extra || {});
+    }
     
     let selectedVibe = null;
     let selectedOccasion = null;
@@ -2780,6 +3416,15 @@
         });
         
         currentStep = step;
+
+        if (landingDismissed) {
+            trackFunnel('wizard-step-' + step, {
+                vibe: selectedVibe || '',
+                occasion: selectedOccasion || '',
+                scale: selectedScale || '',
+                package: selectedPackage || ''
+            });
+        }
         
         // Special handling for step 4: ensure all package cards are visible and animated
         if (step === 4) {
@@ -2813,30 +3458,127 @@
     // ============================================
     // AUDIO PREVIEW SYSTEM
     // ============================================
+    function formatTime(seconds) {
+        if (!isFinite(seconds) || seconds < 0) return '0:00';
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return m + ':' + String(s).padStart(2, '0');
+    }
+
+    function hintPlayerPulse() {
+        const player = document.getElementById('premiumPlayer');
+        if (!player) return;
+        player.classList.remove('pulse-hint');
+        void player.offsetWidth;
+        player.classList.add('pulse-hint');
+        setTimeout(function() { player.classList.remove('pulse-hint'); }, 4000);
+    }
+
+    function initPremiumPlayer() {
+        const playBtn = document.getElementById('premiumPlayBtn');
+        const scrub = document.getElementById('premiumScrub');
+        const scrubFill = document.getElementById('premiumScrubFill');
+        const currentEl = document.getElementById('premiumCurrent');
+        const durationEl = document.getElementById('premiumDuration');
+        const scrubTrack = document.getElementById('premiumScrubTrack');
+        const trackTitle = document.getElementById('premiumTrackTitle');
+
+        if (!playBtn || !audioPlayer) return;
+
+        playBtn.addEventListener('click', function() {
+            if (!audioSource.src) return;
+            if (audioPlayer.paused) {
+                audioPlayer.play().catch(function() {});
+                playBtn.textContent = '\u23F8';
+                playBtn.classList.add('playing');
+                if (trackTitle) {
+                    audioStatus.textContent = 'Playing: ' + trackTitle.textContent;
+                }
+            } else {
+                audioPlayer.pause();
+                playBtn.textContent = '\u25B6';
+                playBtn.classList.remove('playing');
+            }
+        });
+
+        audioPlayer.addEventListener('timeupdate', function() {
+            const pct = audioPlayer.duration ? (audioPlayer.currentTime / audioPlayer.duration) * 100 : 0;
+            if (scrubFill) scrubFill.style.width = pct + '%';
+            if (scrub) scrub.value = String(pct);
+            if (currentEl) currentEl.textContent = formatTime(audioPlayer.currentTime);
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', function() {
+            if (durationEl) durationEl.textContent = formatTime(audioPlayer.duration);
+        });
+
+        audioPlayer.addEventListener('ended', function() {
+            playBtn.textContent = '\u25B6';
+            playBtn.classList.remove('playing');
+        });
+
+        if (scrub) {
+            scrub.addEventListener('input', function() {
+                if (audioPlayer.duration) {
+                    audioPlayer.currentTime = (parseFloat(scrub.value) / 100) * audioPlayer.duration;
+                }
+            });
+        }
+
+        if (scrubTrack) {
+            scrubTrack.addEventListener('click', function(e) {
+                if (!audioPlayer.duration) return;
+                const rect = scrubTrack.getBoundingClientRect();
+                const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                audioPlayer.currentTime = pct * audioPlayer.duration;
+            });
+        }
+    }
+
     function loadAudioPreview(vibe) {
         const audioPath = CONFIG.audioPreviews[vibe];
+        const premiumPlayBtn = document.getElementById('premiumPlayBtn');
+        const premiumTrackTitle = document.getElementById('premiumTrackTitle');
+        const premiumTrackSub = document.getElementById('premiumTrackSub');
+        const premiumPlayer = document.getElementById('premiumPlayer');
+        const premiumDuration = document.getElementById('premiumDuration');
+
         if (!audioPath) {
             showAudioError();
             return;
         }
-        
+
+        if (premiumPlayBtn) {
+            premiumPlayBtn.disabled = true;
+            premiumPlayBtn.textContent = '\u25B6';
+            premiumPlayBtn.classList.remove('playing');
+        }
+
         audioLoading.style.display = 'block';
         audioError.style.display = 'none';
         audioStatus.textContent = 'Loading preview...';
         audioPlayer.pause();
-        
+
         audioSource.src = audioPath;
         audioPlayer.load();
-        
+
+        if (premiumTrackTitle) premiumTrackTitle.textContent = formatVibeName(vibe);
+        if (premiumTrackSub) premiumTrackSub.textContent = 'Tap the big play button to listen';
+
         audioPlayer.addEventListener('canplay', function onCanPlay() {
             audioLoading.style.display = 'none';
-            audioStatus.textContent = `Now playing: ${formatVibeName(vibe)} preview`;
+            audioStatus.textContent = 'Ready: ' + formatVibeName(vibe) + ' — press play';
+            if (premiumPlayBtn) premiumPlayBtn.disabled = false;
+            if (premiumPlayer) premiumPlayer.classList.add('has-track');
+            if (premiumDuration) premiumDuration.textContent = formatTime(audioPlayer.duration);
+            hintPlayerPulse();
             audioPlayer.removeEventListener('canplay', onCanPlay);
         }, { once: true });
-        
+
         audioPlayer.addEventListener('error', function onError() {
             audioLoading.style.display = 'none';
             showAudioError();
+            if (premiumPlayBtn) premiumPlayBtn.disabled = true;
             audioPlayer.removeEventListener('error', onError);
         }, { once: true });
     }
@@ -2971,8 +3713,10 @@
             const largeArc = segmentAngle > 180 ? 1 : 0;
             
             path.setAttribute('d', `M 150 150 L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} Z`);
-            path.setAttribute('fill', `hsl(${index * 36}, 40%, 50%)`);
-            path.setAttribute('opacity', '0.7');
+            path.setAttribute('fill', `hsl(${index * 36}, 65%, 48%)`);
+            path.setAttribute('opacity', '0.92');
+            path.setAttribute('stroke', 'rgba(255,255,255,0.15)');
+            path.setAttribute('stroke-width', '1');
             path.setAttribute('data-vibe', vibe);
             wheelSegments.appendChild(path);
             
@@ -3010,7 +3754,7 @@
                 const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
                 const selectedVibe = options[selectedIndex];
                 
-                wheelResult.innerHTML = `🎵 <strong>${formatVibeName(selectedVibe)}</strong> selected!`;
+                wheelResult.innerHTML = '<strong>' + formatVibeName(selectedVibe) + '</strong> — try the preview below!';
                 
                 // Auto-select the vibe card (not the SVG wheel segment)
                 const vibeCard = document.querySelector(`.choice-card[data-vibe="${selectedVibe}"]`);
@@ -3028,6 +3772,8 @@
                 if (CONFIG.audioPreviews[selectedVibe]) {
                     loadAudioPreview(selectedVibe);
                 }
+                const demo = document.getElementById('playerDemo');
+                if (demo) demo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 
                 isSpinning = false;
                 spinBtn.disabled = false;
@@ -3313,6 +4059,8 @@
         document.getElementById('next1').disabled = false;
         loadAudioPreview(selectedVibe);
         saveToLocalStorage();
+        const demo = document.getElementById('playerDemo');
+        if (demo) demo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     
     // Occasion selection
@@ -3662,6 +4410,14 @@
             
             if (response.ok) {
                 formSuccess.classList.add('show');
+                if (window.EchoStoryAnalytics) {
+                    EchoStoryAnalytics.trackEvent('funnel-complete', {
+                        package: selectedPackage || '',
+                        total: currentDisplayedTotal || 0,
+                        addons: selectedAddons.length
+                    });
+                    EchoStoryAnalytics.trackScreen('form-success');
+                }
                 orderForm.reset();
                 
                 // Show Square payment option if available
@@ -3957,7 +4713,7 @@
     // Load saved state
     loadFromLocalStorage();
     
-    // Initialize step 1
+    // Initialize step 1 (silent — landing overlay still visible)
     showStep(1);
     
     // Create particles
@@ -3970,6 +4726,78 @@
         document.body.appendChild(particle);
     }
     
+    function dismissLandingIfNeeded() {
+        const landingPage = document.getElementById('landingPage');
+        if (landingPage && landingPage.style.display !== 'none') {
+            landingDismissed = true;
+            landingPage.classList.add('fade-out');
+            setTimeout(function() {
+                landingPage.style.display = 'none';
+                window.scrollTo(0, 0);
+            }, 600);
+        }
+    }
+
+    function initSiteNav() {
+        const toggle = document.getElementById('menuToggle');
+        const drawer = document.getElementById('siteDrawer');
+        const backdrop = document.getElementById('drawerBackdrop');
+
+        if (!toggle || !drawer || !backdrop) return;
+
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            backdrop.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            drawer.setAttribute('aria-hidden', 'true');
+        }
+
+        function openDrawer() {
+            drawer.classList.add('open');
+            backdrop.classList.add('open');
+            toggle.setAttribute('aria-expanded', 'true');
+            drawer.setAttribute('aria-hidden', 'false');
+        }
+
+        toggle.addEventListener('click', function() {
+            if (drawer.classList.contains('open')) closeDrawer();
+            else openDrawer();
+        });
+
+        backdrop.addEventListener('click', closeDrawer);
+
+        drawer.querySelectorAll('[data-nav]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const action = btn.getAttribute('data-nav');
+                closeDrawer();
+                dismissLandingIfNeeded();
+                trackFunnel('menu-' + action);
+
+                if (action === 'build') showStep(1);
+                else if (action === 'how') document.getElementById('howPanel').classList.add('open');
+                else if (action === 'about') document.getElementById('aboutPanel').classList.add('open');
+                else if (action === 'faq') {
+                    const faq = document.getElementById('faqSection');
+                    if (faq) faq.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                else if (action === 'pricing') showStep(4);
+                else if (action === 'contact') showStep(5);
+            });
+        });
+
+        document.querySelectorAll('[data-close-panel]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                btn.closest('.info-panel').classList.remove('open');
+            });
+        });
+
+        document.querySelectorAll('.info-panel').forEach(function(panel) {
+            panel.addEventListener('click', function(e) {
+                if (e.target === panel) panel.classList.remove('open');
+            });
+        });
+    }
+
     // ============================================
     // LANDING PAGE ANIMATION SEQUENCE
     // ============================================
@@ -3977,38 +4805,56 @@
         const landingPage = document.getElementById('landingPage');
         const loadingScreen = document.getElementById('loadingScreen');
         const heroScreen = document.getElementById('heroScreen');
-        const educationScreen = document.getElementById('educationScreen');
+        const educationScreen1 = document.getElementById('educationScreen1');
+        const educationScreen2 = document.getElementById('educationScreen2');
         const startButton = document.getElementById('startButton');
+        const educationNext1 = document.getElementById('educationNext1');
+        const educationBack2 = document.getElementById('educationBack2');
         const continueButton = document.getElementById('continueButton');
-        
-        // Show loading screen for 2.5 seconds
-        setTimeout(() => {
+
+        setTimeout(function() {
             loadingScreen.classList.add('hidden');
             heroScreen.classList.add('show');
+            trackFunnel('landing-hero');
         }, 2500);
-        
-        // Start button click - show education screen
-        startButton.addEventListener('click', () => {
+
+        startButton.addEventListener('click', function() {
             heroScreen.classList.remove('show');
             heroScreen.style.display = 'none';
-            educationScreen.classList.add('show');
+            educationScreen1.classList.add('show');
+            landingPage.querySelector('.landing-frame').scrollTop = 0;
+            trackFunnel('landing-edu-1');
         });
-        
-        // Continue button click - fade out landing page and reveal wizard
-        continueButton.addEventListener('click', () => {
+
+        educationNext1.addEventListener('click', function() {
+            educationScreen1.classList.remove('show');
+            educationScreen2.classList.add('show');
+            landingPage.querySelector('.landing-frame').scrollTop = 0;
+            trackFunnel('landing-edu-2');
+        });
+
+        educationBack2.addEventListener('click', function() {
+            educationScreen2.classList.remove('show');
+            educationScreen1.classList.add('show');
+            landingPage.querySelector('.landing-frame').scrollTop = 0;
+            trackFunnel('landing-edu-1');
+        });
+
+        continueButton.addEventListener('click', function() {
+            landingDismissed = true;
+            trackFunnel('wizard-start');
             landingPage.classList.add('fade-out');
-            
-            // Remove landing page after transition
-            setTimeout(() => {
+            setTimeout(function() {
                 landingPage.style.display = 'none';
-                // Scroll to top to ensure wizard is visible
                 window.scrollTo(0, 0);
+                showStep(1);
             }, 1000);
         });
     }
-    
-    // Initialize landing page on load
+
     initLandingPage();
+    initSiteNav();
+    initPremiumPlayer();
     
     // ============================================
     // FLOATING MINI AUDIO PLAYER

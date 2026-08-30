@@ -28,7 +28,7 @@
       "backend": [],
       "database": [],
       "infra": ["github-pages"],
-      "analytics": [],
+      "analytics": ["umami"],
       "ai": []
     },
     "runtime": {
@@ -144,6 +144,24 @@
       "status": "active"
     },
     {
+      "id": "analytics",
+      "path": "analytics.js",
+      "type": "js",
+      "role": "Umami funnel events",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "umami_doc",
+      "path": "docs/UMAMI.md",
+      "type": "md",
+      "role": "analytics setup",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
       "id": "square",
       "path": "docs/SQUARE.md",
       "type": "md",
@@ -177,7 +195,7 @@
   ],
   "systems": {
     "linked_projects": ["aerovista.us"],
-    "depends_on": ["formspree", "square-payment-links"],
+    "depends_on": ["formspree", "square-payment-links", "umami"],
     "feeds": [],
     "consumes": [],
     "shares_with": [],
@@ -247,7 +265,9 @@
       "config.js",
       "docs/README.md",
       "docs/SETUP.md",
-      "docs/SQUARE.md"
+      "docs/SQUARE.md",
+      "docs/UMAMI.md",
+      "analytics.js"
     ],
     "marker": {
       "enabled": true,

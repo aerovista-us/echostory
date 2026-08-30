@@ -84,7 +84,8 @@ EchoStory is a premium interactive web storefront for ordering custom musical tr
 ```
 echostory/
 ├── index.html              # Storefront (wizard + landing)
-├── config.js               # Formspree + Square Link IDs
+├── config.js               # Formspree, Square Link IDs, Umami website ID
+├── analytics.js            # Umami funnel events (enter / nav / exit)
 ├── config.example.js       # Same shape, for copy/paste
 ├── audio/                  # Vibe previews + mini-player MP3s
 ├── images/                 # Landing / education art
@@ -92,6 +93,7 @@ echostory/
 │   ├── README.md           # Docs index
 │   ├── SETUP.md
 │   ├── SQUARE.md
+│   ├── UMAMI.md
 │   └── TESTING-SUMMARY.md  # 2025-11-16 live-test snapshot
 ├── SOT.json                # AeroVista source-of-truth manifest
 └── README.md
