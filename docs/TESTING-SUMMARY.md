@@ -1,7 +1,10 @@
-# 🧪 EchoStory Storefront — Testing Summary
+# EchoStory Storefront — Testing Summary
+
+**Status (2026-08-29):** This file is a **snapshot from 2025-11-16** live testing. It is not a current QA run. Current setup and payment rules: [README.md](README.md), [SETUP.md](SETUP.md), [SQUARE.md](SQUARE.md).
+
 **Live Site:** https://aerovista-us.github.io/echostory/  
 **Last Updated:** November 16, 2025  
-**Status:** ✅ All Core Features Working
+**Status then:** All core features working
 
 ---
 

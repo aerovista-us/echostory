@@ -61,19 +61,16 @@ EchoStory is a premium interactive web storefront for ordering custom musical tr
    ```
 
 2. **Configure Square Payment Links**
-   - Edit `index.html` (lines 1702-1708)
-   - Replace `YOUR_LINK_ID` with actual Square Link IDs
-   - See [docs/SETUP.md](docs/SETUP.md) for detailed instructions
+   - Edit `config.js` (`squareLinks` for each package)
+   - See [docs/SQUARE.md](docs/SQUARE.md) and [docs/SETUP.md](docs/SETUP.md)
 
 3. **Configure Formspree**
-   - Edit `index.html` (line 1582)
-   - Replace `YOUR_FORM_ID` with your Formspree endpoint
+   - Set `formspreeFormId` in `config.js`
    - Get your ID from [formspree.io/forms](https://formspree.io/forms)
 
-4. **Add Audio Preview Files**
-   - Upload 10 MP3 files to `/audio/` directory
-   - File requirements: 320kbps, 15-30 seconds
-   - See [docs/SETUP.md](docs/SETUP.md#3-audio-preview-files) for file names
+4. **Audio preview files**
+   - Already in `/audio/` on this repo; filenames must match `audioPreviews` in `index.html`
+   - See [docs/SETUP.md](docs/SETUP.md#3-audio-preview-files)
 
 5. **Deploy**
    - Upload to your web server
@@ -86,21 +83,18 @@ EchoStory is a premium interactive web storefront for ordering custom musical tr
 
 ```
 echostory/
-├── index.html           # Main storefront (production-ready)
-├── audio/               # Audio preview files (10 MP3s)
-│   ├── jazz-preview.mp3
-│   ├── lounge-preview.mp3
-│   ├── acoustic-preview.mp3
-│   ├── modern-pop-preview.mp3
-│   ├── country-preview.mp3
-│   ├── lofi-preview.mp3
-│   ├── gamey-preview.mp3
-│   ├── cinematic-preview.mp3
-│   ├── love-ballad-preview.mp3
-│   └── storytelling-preview.mp3
+├── index.html              # Storefront (wizard + landing)
+├── config.js               # Formspree + Square Link IDs
+├── config.example.js       # Same shape, for copy/paste
+├── audio/                  # Vibe previews + mini-player MP3s
+├── images/                 # Landing / education art
 ├── docs/
-│   └── SETUP.md         # Complete configuration guide
-└── README.md            # This file
+│   ├── README.md           # Docs index
+│   ├── SETUP.md
+│   ├── SQUARE.md
+│   └── TESTING-SUMMARY.md  # 2025-11-16 live-test snapshot
+├── SOT.json                # AeroVista source-of-truth manifest
+└── README.md
 ```
 
 ---
@@ -109,14 +103,11 @@ echostory/
 
 ### Required Configurations
 
-1. **Square Payment Integration** (3 places to configure in `index.html`)
-   - Update `CONFIG.squareLinks` in JavaScript
-   - Create 5 payment links in Square dashboard
-   - [Full instructions →](docs/SETUP.md#1-square-payment-integration)
+1. **Square Payment Links** — `config.js` → `squareLinks`  
+   [SQUARE.md](docs/SQUARE.md)
 
-2. **Formspree Form Endpoint** (1 place in `index.html`)
-   - Update form `action` attribute
-   - [Full instructions →](docs/SETUP.md#2-formspree-form-configuration)
+2. **Formspree** — `config.js` → `formspreeFormId`  
+   [SETUP.md](docs/SETUP.md#2-formspree)
 
 3. **Audio Preview Files** (10 files)
    - Upload MP3s to `/audio/` directory
@@ -151,7 +142,7 @@ Before launching, test:
 - ✅ Mobile responsiveness on real devices
 - ✅ Browser compatibility (Chrome, Firefox, Safari, Edge)
 
-Full testing guide: [docs/SETUP.md#4-testing-checklist](docs/SETUP.md#4-testing-checklist)
+Full testing guide: [docs/SETUP.md](docs/SETUP.md#5-testing)
 
 ---
 
@@ -218,10 +209,10 @@ Track events:
 
 ## 🚢 Deployment Options
 
-### GitHub Pages (Free)
+### GitHub Pages (current)
 ```bash
-git push origin main
-# Enable Pages in repository settings
+git push origin master
+# Pages serves this repo at https://aerovista-us.github.io/echostory/
 ```
 
 ### Netlify (Free tier)

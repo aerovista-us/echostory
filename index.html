@@ -2289,8 +2289,8 @@
                 </div>
                 <div style="text-align: center;">
                     <div style="font-size: 2rem; margin-bottom: 8px;">2️⃣</div>
-                    <div style="font-weight: 600; color: var(--text); margin-bottom: 5px;">We Review & Invoice</div>
-                    <div style="font-size: 0.85rem; color: var(--text-soft);">We review details, confirm timeline, and send a Square invoice</div>
+                    <div style="font-weight: 600; color: var(--text); margin-bottom: 5px;">Pay or Invoice</div>
+                    <div style="font-size: 0.85rem; color: var(--text-soft);">Optional Square checkout for the base package; add-ons are invoiced after we review</div>
                 </div>
                 <div style="text-align: center;">
                     <div style="font-size: 2rem; margin-bottom: 8px;">3️⃣</div>
@@ -2299,7 +2299,7 @@
                 </div>
             </div>
             <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-soft); text-align: center; padding-top: 15px; border-top: 1px solid rgba(255, 0, 110, 0.2);">
-                <strong style="color: var(--accent-cyan);">No instant autopay</strong> — Submitting this form starts the creative process, not a payment.
+                <strong style="color: var(--accent-cyan);">Submitting this form is not a charge</strong> — after we receive your request you can pay the base package with Square, or wait for a reviewed invoice.
             </p>
         </div>
 
@@ -2314,7 +2314,7 @@
 
             <label for="client_email">Email <span style="color: var(--danger);">*</span></label>
             <input type="email" id="client_email" name="client_email" required aria-required="true" aria-describedby="email-error">
-            <div class="note-mini">We'll reply with next steps & Square invoice</div>
+            <div class="note-mini">We'll reply with next steps. You can pay the base package with Square after submit, or wait for an invoice.</div>
             <div class="form-error" id="email-error" role="alert"></div>
 
             <label for="recipient_name">Name of the Person You're Honoring <span style="color: var(--danger);">*</span></label>
@@ -2386,8 +2386,8 @@
                     <a href="#" id="squareCheckoutBtn" class="btn" target="_blank" rel="noopener noreferrer" style="display: inline-block; text-decoration: none;">
                         Pay Base Package with Square
                     </a>
-                    <p style="margin-top: 12px; font-size: 0.85rem; color: var(--muted);">
-                        Your final invoice will reflect your package + any add-ons you selected. You'll receive a Square invoice via email for any add-ons.
+                    <p id="squareAddonsNote" style="margin-top: 12px; font-size: 0.85rem; color: var(--muted);">
+                        Square checkout is the base package only. Add-ons (if any) are invoiced after we review your request.
                     </p>
                 </div>
             </div>
@@ -2501,27 +2501,19 @@
     <audio id="miniPlayerAudio" preload="metadata"></audio>
 </div>
 
+<script src="config.js"></script>
 <script>
 (function() {
     'use strict';
     
     // ============================================
     // CONFIGURATION
+    // Payment Link IDs and Formspree live in config.js (overlay: config.local.js).
+    // See docs/SQUARE.md
     // ============================================
     const CONFIG = {
-        // =====================================
-        // SQUARE PAYMENT INTEGRATION
-        // =====================================
-        // TODO: Add your Square Link IDs from square.link/dashboard
-        // Each package needs a unique checkout link (format: sq0idp-xxxxx)
-        // 
-        // Setup instructions:
-        // 1. Go to https://square.link/dashboard
-        // 2. Create a payment link for each package tier
-        // 3. Copy the Link ID (starts with sq0idp-)
-        // 4. Replace 'YOUR_LINK_ID' below with actual IDs
-        //
-        // Note: If no Link ID is provided, customers will receive an invoice via email instead
+        formspreeFormId: 'YOUR_FORM_ID',
+        squareCheckoutBase: 'https://square.link/u/',
         squareLinks: {
             mini: 'YOUR_LINK_ID',        // $79 package
             classic: 'YOUR_LINK_ID',     // $179 package
@@ -2542,16 +2534,16 @@
         //
         // Files needed:
         audioPreviews: {
-            jazz: 'audio/JAZZ  Put Your Story in the Groove.mp3',              // Jazz swing preview
-            lounge: 'audio/LOUNGE _Slow Melt City.mp3',                        // Lounge vibe preview
-            acoustic: 'audio/ACOUSTIC  - Frame It In a Song.mp3',              // Acoustic guitar preview
-            modernPop: 'audio/POP TRIBUTE_Heartline Respawn.extended.mp3',     // Modern pop preview
-            country: 'audio/COUNTRY _Prairie Made of Echoes.mp3',              // Country preview
-            lofi: 'audio/LOFI _Sleeptight Circuits.mp3',                       // Lofi/chill preview
-            gamey: 'audio/GAMEY _ 8-BIT — "Press Play on Your Story.mp3',      // 8-bit/gamey preview
-            cinematic: 'audio/You Moved Through the World Like a Bassline.mp3', // Cinematic preview
-            loveBallad: 'audio/Strong Quiet Things.mp3',                       // Love ballad preview
-            storytelling: 'audio/STORYTELLING_The Sky Signed Your Name.mp3'    // Storytelling mode preview
+            jazz: 'audio/JAZZ  Put Your Story in the Groove.mp3',
+            lounge: 'audio/LOUNGE  Pour a Little Memory In.mp3',
+            acoustic: 'audio/ACOUSTIC  - Frame It In a Song.mp3',
+            modernPop: 'audio/POP TRIBUTE_Heartline Respawn.extended.mp3',
+            country: 'audio/COUNTRY_Make the Memory Ride.mp3',
+            lofi: 'audio/LOFI _Let the Moment Drift.mp3',
+            gamey: 'audio/GAMEY _ 8-BIT - "Press Play on Your Story.mp3',
+            cinematic: 'audio/CINEMATIC _Your Life in Wide Frame (1).mp3',
+            loveBallad: 'audio/LOVE BALLAD  Hold the Feeling Close.mp3',
+            storytelling: 'audio/STORYTELLING _Say It Like a Legend.mp3'
         },
         morphStyles: ['jazz', 'acoustic', 'lofi', 'gamey', 'cinematic'],
         themes: {
@@ -2618,6 +2610,26 @@
         vibeWheelOptions: ['jazz', 'lounge', 'acoustic', 'modernPop', 'country', 'lofi', 'gamey', 'cinematic', 'loveBallad', 'storytelling']
     };
     
+    function isSquareLinkReady(linkId) {
+        return Boolean(linkId) && linkId !== 'YOUR_LINK_ID' && String(linkId).indexOf('YOUR_') !== 0;
+    }
+    
+    function applyConfigOverlay() {
+        const overlay = window.ECHOSTORY_CONFIG || {};
+        if (overlay.squareLinks && typeof overlay.squareLinks === 'object') {
+            Object.assign(CONFIG.squareLinks, overlay.squareLinks);
+        }
+        if (overlay.formspreeFormId) {
+            CONFIG.formspreeFormId = overlay.formspreeFormId;
+        }
+        if (overlay.squareCheckoutBase) {
+            CONFIG.squareCheckoutBase = overlay.squareCheckoutBase;
+        }
+        if (orderForm && CONFIG.formspreeFormId && CONFIG.formspreeFormId !== 'YOUR_FORM_ID') {
+            orderForm.action = 'https://formspree.io/f/' + CONFIG.formspreeFormId;
+        }
+    }
+    
     // ============================================
     // STATE MANAGEMENT
     // ============================================
@@ -2645,6 +2657,7 @@
     const recText = document.getElementById('recText');
     const continueToForm = document.getElementById('continueToForm');
     const orderForm = document.getElementById('orderForm');
+    applyConfigOverlay();
     const selectionSummary = document.getElementById('selectionSummary');
     
     // Hidden form fields
@@ -3543,23 +3556,19 @@
         if (!selectedPackage) return null;
         
         const squareLinkId = CONFIG.squareLinks[selectedPackage];
-        if (!squareLinkId || squareLinkId === 'YOUR_LINK_ID') {
+        if (!isSquareLinkReady(squareLinkId)) {
             return null;
         }
         
-        // Build URL with UTM parameters and order details
+        // Payment Links are fixed-price SKUs. Order details live on Formspree, not on this URL.
         const params = new URLSearchParams({
             utm_source: 'echostory_storefront',
             utm_campaign: 'wizard_order',
             utm_medium: 'website'
         });
         
-        // Add order details as notes (Square will receive these)
-        if (selectedVibe) params.append('vibe', selectedVibe);
-        if (selectedOccasion) params.append('occasion', selectedOccasion);
-        if (selectedScale) params.append('scale', selectedScale);
-        
-        return `https://square.link/u/${squareLinkId}?${params.toString()}`;
+        const base = CONFIG.squareCheckoutBase || 'https://square.link/u/';
+        return base.replace(/\/?$/, '/') + squareLinkId + '?' + params.toString();
     }
     
     function showSquarePaymentOption() {
@@ -3571,6 +3580,15 @@
         if (checkoutUrl) {
             squareCheckoutBtn.href = checkoutUrl;
             squarePaymentSection.style.display = 'block';
+            const addonsNote = document.getElementById('squareAddonsNote');
+            if (addonsNote) {
+                const addonTotal = selectedAddons.reduce(function (sum, a) { return sum + (a.price || 0); }, 0);
+                if (selectedAddons.length) {
+                    addonsNote.textContent = 'Square checkout is the $' + (currentDisplayedTotal - addonTotal) + ' base package. About $' + addonTotal + ' in add-ons will be invoiced after we review.';
+                } else {
+                    addonsNote.textContent = 'Square checkout is the base package only. Add-ons (if any) are invoiced after we review your request.';
+                }
+            }
             
             // Track click
             squareCheckoutBtn.addEventListener('click', function() {

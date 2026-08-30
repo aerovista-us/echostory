@@ -1,0 +1,276 @@
+{
+  "sot_version": "2.0-aerovista",
+  "project": {
+    "name": "EchoStory",
+    "slug": "echostory",
+    "brand": "AeroVista",
+    "division": "EchoVerse",
+    "owner": "AeroVista LLC",
+    "status": "active",
+    "lifecycle": "production",
+    "type": "app",
+    "category": "mini-shop",
+    "root": "./",
+    "primary_language": "html",
+    "repo_visibility": "private",
+    "created": "2025-11-15",
+    "updated": "2026-08-29",
+    "timezone": "America/Los_Angeles"
+  },
+  "purpose": {
+    "summary": "Static HTML/JS storefront for EchoStory custom musical tributes. Five-step wizard, Formspree intake, Square Payment Links for base packages. No build step. GitHub Pages.",
+    "source_of_truth_policy": "Only files listed here and stored in approved canon locations are treated as master files.",
+    "business_role": "EchoVerse public mini-shop: order intake and sample playback."
+  },
+  "technical_profile": {
+    "stack": {
+      "frontend": ["html", "css", "javascript"],
+      "backend": [],
+      "database": [],
+      "infra": ["github-pages"],
+      "analytics": [],
+      "ai": []
+    },
+    "runtime": {
+      "local_ports": [],
+      "service_urls": ["https://aerovista-us.github.io/echostory/"],
+      "health_endpoint": "",
+      "entry_command": "",
+      "build_command": "",
+      "start_command": ""
+    },
+    "deployment": {
+      "primary_host": "github-pages",
+      "deploy_path": "aerovista-us/echostory master",
+      "public_url": "https://aerovista-us.github.io/echostory/",
+      "internal_url": "\\\\100.115.9.61\\Collab\\mini.shops\\EchoStory",
+      "containerized": false,
+      "compose_file": "",
+      "reverse_proxy": "",
+      "networking_notes": "Working copy also lives on NXCore Collab. GitHub is the public deploy source. UNC git may need safe.directory because of NXCore vs workstation SID mismatch."
+    },
+    "data_model": {
+      "core_db_dependency": false,
+      "domain_db": "",
+      "canonical_event_ledger": "",
+      "shared_storage": []
+    }
+  },
+  "canon": {
+    "canon_root": "./",
+    "allowed_master_locations": [
+      "./",
+      "./docs"
+    ],
+    "forbidden_master_locations": [
+      "./archive",
+      "./intake",
+      "./tmp",
+      "./build",
+      "./dist",
+      "./coverage",
+      "./node_modules"
+    ]
+  },
+  "entrypoints": [
+    {
+      "id": "storefront",
+      "label": "EchoStory storefront",
+      "path": "index.html",
+      "required": true,
+      "notes": "Single-file wizard plus landing sequence."
+    },
+    {
+      "id": "runtime_config",
+      "label": "Formspree and Square Link IDs",
+      "path": "config.js",
+      "required": true,
+      "notes": "Do not put Square access tokens here."
+    }
+  ],
+  "canon_files": [
+    {
+      "id": "sot_self",
+      "path": "SOT.json",
+      "type": "json",
+      "role": "source of truth manifest",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "storefront",
+      "path": "index.html",
+      "type": "html",
+      "role": "public storefront",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "runtime_config",
+      "path": "config.js",
+      "type": "js",
+      "role": "Formspree and Square Payment Link IDs",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "readme",
+      "path": "README.md",
+      "type": "md",
+      "role": "product overview",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "docs_index",
+      "path": "docs/README.md",
+      "type": "md",
+      "role": "docs index",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "setup",
+      "path": "docs/SETUP.md",
+      "type": "md",
+      "role": "operator setup",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    },
+    {
+      "id": "square",
+      "path": "docs/SQUARE.md",
+      "type": "md",
+      "role": "Square Payment Links and Checkout API path",
+      "required": true,
+      "owner": "project-owner",
+      "status": "active"
+    }
+  ],
+  "canon_folders": [
+    {
+      "id": "root",
+      "path": "./",
+      "role": "repo root"
+    },
+    {
+      "id": "docs",
+      "path": "./docs",
+      "role": "operator docs"
+    },
+    {
+      "id": "audio",
+      "path": "./audio",
+      "role": "preview and mini-player audio"
+    },
+    {
+      "id": "images",
+      "path": "./images",
+      "role": "landing art"
+    }
+  ],
+  "systems": {
+    "linked_projects": ["aerovista.us"],
+    "depends_on": ["formspree", "square-payment-links"],
+    "feeds": [],
+    "consumes": [],
+    "shares_with": [],
+    "related_domains": ["echoverse"],
+    "tailscale_hosts": [],
+    "cloudflare_tunnels": []
+  },
+  "portfolio": {
+    "division_slug": "echoverse",
+    "portfolio_lane": "keep",
+    "maturity_stage": 4,
+    "maturity_label": "external-beta",
+    "system_role": "echostory-storefront",
+    "exposure": "public-edge",
+    "strategic_tier": "core",
+    "owner_team": "EchoVerse / Experiences",
+    "owner_person": "glyph",
+    "commercial_status": "market-facing",
+    "scorecard": {
+      "security": 2,
+      "reliability": 2,
+      "data_safety": 2,
+      "documentation": 3,
+      "repeatability": 2,
+      "owner_clarity": 2
+    },
+    "decision_notes": "Static GitHub Pages storefront. Square Checkout API (line items / add-ons) needs a backend; Payment Links cover base packages only. Flagship aerovista.us links to GitHub Pages."
+  },
+  "ops": {
+    "service_name": "echostory",
+    "health_check_paths": [],
+    "backup_targets": ["github.com/aerovista-us/echostory"],
+    "log_locations": [],
+    "secrets_locations": ["config.local.js"],
+    "monitoring": {
+      "enabled": false,
+      "providers": []
+    }
+  },
+  "governance": {
+    "review_cycle": "when major changes ship",
+    "update_rule": "Update this file whenever a canonical file moves, is replaced, changes purpose, or deploy behavior changes.",
+    "promotion_rule": "Files are promoted into canon only after review.",
+    "archive_rule": "Old versions move to archive and are never treated as master files.",
+    "owner_roles": [
+      "project-owner",
+      "ops-owner",
+      "tech-owner"
+    ]
+  },
+  "duplicates": [
+    {
+      "pattern": "README",
+      "known_locations": [
+        "README.md",
+        "docs/README.md"
+      ],
+      "winner": "README.md",
+      "note": "Root README is product; docs/README.md is the docs index."
+    }
+  ],
+  "checks": {
+    "required_paths_exist": [
+      "SOT.json",
+      "README.md",
+      "index.html",
+      "config.js",
+      "docs/README.md",
+      "docs/SETUP.md",
+      "docs/SQUARE.md"
+    ],
+    "marker": {
+      "enabled": true,
+      "marker_key": "SOT:",
+      "accepted_ext": [
+        ".md",
+        ".html",
+        ".json",
+        ".txt",
+        ".yml",
+        ".yaml",
+        ".js"
+      ]
+    },
+    "hash_canon_files": true,
+    "warn_on_duplicate_ids": true,
+    "warn_on_missing_required": true,
+    "warn_on_master_outside_allowed_locations": true
+  },
+  "notes": [
+    "tag: #mini.shop",
+    "github: https://github.com/aerovista-us/echostory",
+    "collab: \\\\100.115.9.61\\Collab\\mini.shops\\EchoStory",
+    "Do not store Square access tokens in git."
+  ]
+}

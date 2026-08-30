@@ -11,6 +11,7 @@ desktop.ini
 # Editor Files
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~
@@ -30,3 +31,5 @@ notes.md
 TODO.md
 scratch.md
 
+# Machine-only config overlay (see docs/SETUP.md)
+config.local.js
