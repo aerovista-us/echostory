@@ -125,9 +125,8 @@
 
 /**
  * EchoStory presentation layer.
- * Keeps the landing experience visually contained without touching the large
- * single-file application. This patch is intentionally DOM-driven so the
- * wizard logic and existing event handlers remain intact.
+ * Keeps the landing experience visually contained without changing the large
+ * single-file application or its existing funnel handlers.
  */
 (function (global) {
     'use strict';
@@ -141,22 +140,53 @@
         var style = document.createElement('style');
         style.id = 'echostory-layout-patch';
         style.textContent = `
-            /* Landing: place the supporting copy and CTA over the hero art. */
+            body.ux-hero-active,
+            body.ux-education-active {
+                height: 100dvh !important;
+                overflow: hidden !important;
+            }
+
+            /* Landing hero: one clean viewport with the CTA centered on the art. */
+            .landing-page .landing-frame.hero-fit {
+                height: 100dvh !important;
+                max-height: 100dvh !important;
+                overflow: hidden !important;
+                padding: clamp(8px, 1.3vh, 14px) clamp(8px, 2vw, 18px) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
             .hero-screen.ux-hero-overlay {
                 position: relative !important;
-                width: min(100%, 760px) !important;
-                min-height: 100dvh !important;
+                width: 100% !important;
+                height: 100% !important;
+                min-height: 0 !important;
                 margin: 0 auto !important;
-                padding: clamp(8px, 1.5vh, 16px) !important;
+                padding: 0 !important;
+                display: none;
+                align-items: center !important;
                 justify-content: center !important;
                 overflow: hidden !important;
             }
 
+            .hero-screen.ux-hero-overlay.show {
+                display: flex !important;
+            }
+
+            .hero-screen.ux-hero-overlay .hero-art-stage {
+                position: relative !important;
+                width: min(92vw, 600px) !important;
+                max-height: calc(100dvh - 22px) !important;
+                margin: 0 auto !important;
+                flex: 0 1 auto !important;
+            }
+
             .hero-screen.ux-hero-overlay .hero-image {
                 display: block !important;
-                width: min(94vw, 600px) !important;
-                max-width: 100% !important;
-                max-height: calc(100dvh - 20px) !important;
+                width: 100% !important;
+                max-width: none !important;
+                max-height: calc(100dvh - 22px) !important;
                 height: auto !important;
                 margin: 0 !important;
                 object-fit: contain !important;
@@ -165,53 +195,54 @@
             .hero-screen.ux-hero-overlay .hero-overlay-stack {
                 position: absolute !important;
                 left: 50% !important;
-                top: 69% !important;
+                top: 56% !important;
                 transform: translate(-50%, -50%) !important;
                 z-index: 8 !important;
-                width: min(82%, 510px) !important;
+                width: min(82%, 500px) !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 justify-content: center !important;
-                gap: clamp(7px, 1.1vh, 12px) !important;
-                padding: clamp(12px, 2vh, 20px) clamp(14px, 3vw, 26px) !important;
-                border-radius: 22px !important;
+                gap: clamp(7px, 1.05vh, 11px) !important;
+                padding: clamp(11px, 1.75vh, 17px) clamp(14px, 2.8vw, 24px) !important;
+                border-radius: 20px !important;
                 text-align: center !important;
-                background: linear-gradient(180deg, rgba(10, 1, 24, 0.12) 0%, rgba(10, 1, 24, 0.74) 100%) !important;
+                background: linear-gradient(180deg, rgba(10, 1, 24, 0.25) 0%, rgba(10, 1, 24, 0.66) 100%) !important;
                 border: 1px solid rgba(0, 217, 255, 0.18) !important;
-                box-shadow: 0 18px 55px rgba(0, 0, 0, 0.34) !important;
+                box-shadow: 0 16px 46px rgba(0, 0, 0, 0.34) !important;
                 backdrop-filter: blur(3px) !important;
                 -webkit-backdrop-filter: blur(3px) !important;
             }
 
             .hero-screen.ux-hero-overlay .hero-tagline {
                 margin: 0 !important;
-                font-size: clamp(1.15rem, 3.2vw, 1.7rem) !important;
+                font-size: clamp(1.08rem, 3vw, 1.62rem) !important;
                 line-height: 1.1 !important;
-                text-shadow: 0 2px 14px rgba(0, 0, 0, 0.82) !important;
+                text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9) !important;
             }
 
             .hero-screen.ux-hero-overlay .hero-subtitle {
-                max-width: 460px !important;
+                max-width: 450px !important;
                 margin: 0 !important;
-                font-size: clamp(0.82rem, 1.8vw, 1rem) !important;
-                line-height: 1.42 !important;
+                font-size: clamp(0.78rem, 1.7vw, 0.96rem) !important;
+                line-height: 1.4 !important;
                 color: #f0eaff !important;
                 text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95) !important;
             }
 
             .hero-screen.ux-hero-overlay .hero-cta {
                 margin: 2px 0 0 !important;
-                width: min(100%, 360px) !important;
-                padding: clamp(11px, 1.8vh, 14px) 22px !important;
+                width: min(100%, 350px) !important;
+                padding: clamp(10px, 1.6vh, 13px) 20px !important;
             }
 
-            /* Page 2 + 3: one viewport, no internal scrolling. */
-            body.ux-education-active {
-                height: 100dvh !important;
-                overflow: hidden !important;
+            /* The old decorations read as page overflow once the artwork fills a screen. */
+            .hero-screen.ux-hero-overlay > .tape-decoration,
+            .hero-screen.ux-hero-overlay > .bars-decoration {
+                display: none !important;
             }
 
+            /* Education pages 2 + 3: one viewport, no internal scrolling. */
             .landing-page .landing-frame.education-fit {
                 height: 100dvh !important;
                 max-height: 100dvh !important;
@@ -320,26 +351,29 @@
                 font-size: clamp(0.76rem, 1.45vh, 0.9rem) !important;
             }
 
-            /* FAQ now lives on its own page. */
             #faqSection {
                 display: none !important;
             }
 
             @media (max-width: 620px) {
+                .hero-screen.ux-hero-overlay .hero-art-stage {
+                    width: min(94vw, 560px) !important;
+                }
+
                 .hero-screen.ux-hero-overlay .hero-overlay-stack {
-                    top: 70% !important;
-                    width: 88% !important;
-                    gap: 7px !important;
-                    padding: 12px 14px !important;
+                    top: 57% !important;
+                    width: 86% !important;
+                    gap: 6px !important;
+                    padding: 10px 12px !important;
                 }
 
                 .hero-screen.ux-hero-overlay .hero-tagline {
-                    font-size: clamp(1.02rem, 5.2vw, 1.35rem) !important;
+                    font-size: clamp(1rem, 5vw, 1.3rem) !important;
                 }
 
                 .hero-screen.ux-hero-overlay .hero-subtitle {
-                    font-size: clamp(0.72rem, 3.1vw, 0.86rem) !important;
-                    line-height: 1.34 !important;
+                    font-size: clamp(0.7rem, 3vw, 0.84rem) !important;
+                    line-height: 1.32 !important;
                 }
 
                 .landing-frame.education-fit .education-image {
@@ -357,9 +391,9 @@
 
             @media (max-height: 650px) {
                 .hero-screen.ux-hero-overlay .hero-overlay-stack {
-                    top: 68% !important;
-                    padding-top: 10px !important;
-                    padding-bottom: 10px !important;
+                    top: 56% !important;
+                    padding-top: 9px !important;
+                    padding-bottom: 9px !important;
                 }
 
                 .landing-frame.education-fit .education-image {
@@ -380,14 +414,39 @@
         var cta = hero.querySelector('.hero-cta');
         if (!image || !tagline || !subtitle || !cta) return;
 
+        var stage = document.createElement('div');
+        stage.className = 'hero-art-stage';
+        image.parentNode.insertBefore(stage, image);
+        stage.appendChild(image);
+
         var stack = document.createElement('div');
         stack.className = 'hero-overlay-stack';
         stack.setAttribute('aria-label', 'Create your EchoStory');
         stack.appendChild(tagline);
         stack.appendChild(subtitle);
         stack.appendChild(cta);
-        image.insertAdjacentElement('afterend', stack);
+        stage.appendChild(stack);
+
         hero.classList.add('ux-hero-overlay');
+    }
+
+    function setupHeroFit() {
+        var landing = document.getElementById('landingPage');
+        var hero = document.getElementById('heroScreen');
+        if (!landing || !hero) return;
+
+        var frame = landing.querySelector('.landing-frame');
+        if (!frame) return;
+
+        function sync() {
+            var active = hero.classList.contains('show');
+            frame.classList.toggle('hero-fit', active);
+            document.body.classList.toggle('ux-hero-active', active);
+        }
+
+        var observer = new MutationObserver(sync);
+        observer.observe(hero, { attributes: true, attributeFilter: ['class', 'style'] });
+        sync();
     }
 
     function fitEducationScreen(screen, frame) {
@@ -478,6 +537,7 @@
     function initExperienceLayout() {
         injectLayoutStyles();
         setupHeroOverlay();
+        setupHeroFit();
         setupEducationFit();
         setupFaqNavigation();
     }
