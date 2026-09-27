@@ -1,0 +1,11 @@
+# Repository-only documentation and tooling
+README.md
+SOT_README.md
+docs/
+scripts/
+config.example.js
+
+# Preserved source assets with no runtime references.
+# Keep them in Git, but do not ship them in the Vercel static deployment.
+audio/GAMEY _ 8-BIT — “Press Play on Your Story.mp3
+images/backbeat-in-your-shadow.png
